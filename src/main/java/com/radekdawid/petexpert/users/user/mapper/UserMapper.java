@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.user.mapper;
+package com.radekdawid.petexpert.users.user.mapper;
 
 import org.springframework.stereotype.Component;
 

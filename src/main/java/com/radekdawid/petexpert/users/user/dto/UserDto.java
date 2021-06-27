@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.user.dto;
+package com.radekdawid.petexpert.users.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,8 @@
-package com.radekdawid.petexpert.user.repository;
+package com.radekdawid.petexpert.users.user.repository;
 
-import com.radekdawid.petexpert.user.model.User;
+import com.radekdawid.petexpert.users.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
