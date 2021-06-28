@@ -37,6 +37,8 @@ public class UserService implements UserDetailsService {
             throw new IllegalStateException("Email is already taken");
         }
 
+//        TODO: if email not confirmed send confirmation email
+//        TODO: check of atributes are the same
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
 
         user.setPassword(encodedPassword);
@@ -46,8 +48,6 @@ public class UserService implements UserDetailsService {
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-
-//        TODO: Send Email
 
         return token;
     }
