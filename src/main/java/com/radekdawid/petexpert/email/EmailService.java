@@ -18,19 +18,20 @@ public class EmailService implements EmailSender{
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
     private final JavaMailSender mailSender;
 
+
     @Override
     @Async
-    public void send(String to, String email) {
+    public void send(String to, String email, String subject) {
         try{
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
             helper.setText(email, true);
             helper.setTo(to);
-            helper.setSubject("Pet Expert - confirm your email");
-            helper.setFrom("pet@expert.com");
+            helper.setSubject(subject);
+//            helper.setFrom("pet@expert.com");
             mailSender.send(mimeMessage);
         }catch(MessagingException e){
-            LOGGER.error("failed to send email, e");
+            LOGGER.error("failed to send email", e);
             throw new IllegalStateException("failed to send email");
         }
     }

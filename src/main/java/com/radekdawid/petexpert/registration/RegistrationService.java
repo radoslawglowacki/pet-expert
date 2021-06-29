@@ -3,36 +3,69 @@ package com.radekdawid.petexpert.registration;
 import com.radekdawid.petexpert.email.EmailSender;
 import com.radekdawid.petexpert.registration.token.ConfirmationToken;
 import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
+import com.radekdawid.petexpert.users.user.model.Roles;
 import com.radekdawid.petexpert.users.user.model.User;
-import com.radekdawid.petexpert.users.user.model.UserRole;
+import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
 import com.radekdawid.petexpert.users.user.service.UserService;
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 @Service
 @AllArgsConstructor
 public class RegistrationService {
 
-    private final UserService userService;
-    private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
+    private final UserAccessRepository userAccessRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
+    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
+    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 
-    public String register(RegistrationRequest request) {
-        boolean isValidEmail = emailValidator.test(request.getEmail());
 
-        if(!isValidEmail){
-//            TODO better exception
-            throw new IllegalStateException("Email not valid");
+    public String register(@NotNull RegistrationRequest request) {
+        boolean userExists = userAccessRepository.findByEmail(request.getEmail()).isPresent();
+        Matcher matcher = pattern.matcher(request.getPassword());
+
+        if (userExists) {
+            throw new IllegalStateException("Email is already taken");
         }
-        String token = userService.signUpUser(new User(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), UserRole.USER));
+
+        if (!matcher.matches()) {
+            throw new IllegalStateException("Incorrect password");
+        }
+
+//        TODO: if email not confirmed send confirmation email
+//        TODO: check of attributes are the same
+
+
+        User newUser = new User(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), Collections.singletonList(Roles.USER));
+        String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
+        newUser.setPassword(encodedPassword);
+
+        userAccessRepository.save(newUser);
+
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), newUser);
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+
 //        TODO: Change link to proper one in future
-        String link = "http://localhost:8081/api/v1/registration/confirm?token=" + token;
-        emailSender.send(request.getEmail(), buildRegistrationEmail(request.getFirstName(), link));
-        return  token;
+        String confirmationLink = "http://localhost:8081/api/v1/registration/confirm?token=" + token;
+        String subject = "Pet Expert - confirm your email";
+        emailSender.send(newUser.getEmail(), buildRegistrationEmail(newUser.getEmail(), confirmationLink), subject);
+
+        return token;
     }
 
     @Transactional
@@ -58,7 +91,21 @@ public class RegistrationService {
         return "confirmed";
     }
 
+    //    TODO : move to resources
+    @NotNull
+    @Contract(pure = true)
     private String buildRegistrationEmail(String name, String link) {
+//        String fileName = "templates/emails/registration.txt";
+//        ClassLoader classLoader = getClass().getClassLoader();
+//        String result = "";
+//
+//        try (InputStream inputStream = classLoader.getResourceAsStream(fileName)) {
+//            assert inputStream != null;
+//            result = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
