@@ -1,5 +1,6 @@
 package com.radekdawid.petexpert.users.user.model;
 
+import com.radekdawid.petexpert.users.role.model.Role;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,7 +10,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class User implements UserDetails {
     @Id
+    @Column(name = "user_id")
     @SequenceGenerator(
             name = "user_sequence",
             sequenceName = "user_sequence",
@@ -38,33 +41,47 @@ public class User implements UserDetails {
     @NotNull(message = "Last name cannot be null")
     private String lastName;
 
+    // TODO validation
+    private String username;
+
     @Email(message = "Email is not valid")
     private String email;
 
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @ElementCollection
-    @CollectionTable(joinColumns = @JoinColumn(name = "user_id"))
-    private List<Roles> roles;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
 
     private boolean locked = false;
     private boolean enabled = false;
 
 
-    public User(String firstName, String lastName, String email, String password, List<Roles> roles) {
+    public User(String firstName, String lastName, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         this.email = email;
         this.password = password;
-        this.roles = roles;
     }
 
+    public void addRole(Role role) {
+        roles.add(role);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toList());
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    }
+
+    @ManyToMany
+    public Set<Role> getRoles() {
+        return roles;
     }
 
     @Override
@@ -74,15 +91,17 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
-    public String getFirstName() {
-        return firstName;
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
     }
 
-    public String getLastName() {
-        return lastName;
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
     //    TODO
@@ -91,20 +110,11 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return !locked;
-    }
-
     //    TODO
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
 
 }

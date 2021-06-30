@@ -3,7 +3,7 @@ package com.radekdawid.petexpert.registration;
 import com.radekdawid.petexpert.email.EmailSender;
 import com.radekdawid.petexpert.registration.token.ConfirmationToken;
 import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
-import com.radekdawid.petexpert.users.user.model.Roles;
+import com.radekdawid.petexpert.users.role.service.RoleService;
 import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
 import com.radekdawid.petexpert.users.user.service.UserService;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +28,7 @@ public class RegistrationService {
     private final EmailSender emailSender;
     private final UserAccessRepository userAccessRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final RoleService roleService;
     private final UserService userService;
     private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
     private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
@@ -50,11 +50,17 @@ public class RegistrationService {
 //        TODO: check of attributes are the same
 
 
-        User newUser = new User(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), Collections.singletonList(Roles.USER));
+        User newUser = new User(request.getFirstName(), request.getLastName(), request.getUsername(), request.getEmail(), request.getPassword());
         String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
         newUser.setPassword(encodedPassword);
-
+        newUser.addRole(roleService.getRole(request.getRoleId()));
         userAccessRepository.save(newUser);
+
+
+
+//        if(!newUser.getRoles().contains(Roles.USER)){
+////            TODO: add another services which will save rest of received params
+//        }
 
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), newUser);
