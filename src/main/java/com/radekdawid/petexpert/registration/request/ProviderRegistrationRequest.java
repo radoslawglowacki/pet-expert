@@ -1,4 +1,5 @@
-package com.radekdawid.petexpert.registration;
+package com.radekdawid.petexpert.registration.request;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class RegistrationRequest {
+public class ProviderRegistrationRequest {
 
     private final String firstName;
     private final String lastName;
