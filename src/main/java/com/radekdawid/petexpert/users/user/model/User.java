@@ -41,9 +41,6 @@ public class User implements UserDetails {
     @NotNull(message = "Last name cannot be null")
     private String lastName;
 
-    // TODO validation
-    private String username;
-
     @Email(message = "Email is not valid")
     private String email;
 
@@ -62,10 +59,9 @@ public class User implements UserDetails {
     private boolean enabled = false;
 
 
-    public User(String firstName, String lastName, String username, String email, String password) {
+    public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
         this.email = email;
         this.password = password;
     }
@@ -91,7 +87,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override

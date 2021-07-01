@@ -10,9 +10,9 @@ public class RegistrationController {
 
     private final RegistrationService registrationService;
 
-    @PostMapping
+    @PostMapping("/user")
     public String register(@RequestBody RegistrationRequest request){
-        return registrationService.register(request);
+        return registrationService.registerUser(request);
     }
 
     @GetMapping(path = "/confirm")
