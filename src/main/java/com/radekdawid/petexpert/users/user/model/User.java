@@ -1,6 +1,7 @@
 package com.radekdawid.petexpert.users.user.model;
 
-import com.radekdawid.petexpert.users.role.model.Role;
+import com.radekdawid.petexpert.users.user_address.model.Address;
+import com.radekdawid.petexpert.users.user_role.model.Role;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,7 +34,7 @@ public class User implements UserDetails {
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
-    private Long id;
+    private Long user_id;
 
     @NotNull(message = "Name cannot be null")
     private String firstName;
@@ -47,13 +48,11 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
+
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Address> addresses = new HashSet<>();
 
     private boolean locked = false;
     private boolean enabled = false;
@@ -75,9 +74,12 @@ public class User implements UserDetails {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-    @ManyToMany
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public Set<Address> getAddresses(){
+        return addresses;
     }
 
     @Override

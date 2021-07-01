@@ -1,7 +1,7 @@
-package com.radekdawid.petexpert.users.role.service;
+package com.radekdawid.petexpert.users.user_role.service;
 
-import com.radekdawid.petexpert.users.role.model.Role;
-import com.radekdawid.petexpert.users.role.repository.RoleRepository;
+import com.radekdawid.petexpert.users.user_role.model.Role;
+import com.radekdawid.petexpert.users.user_role.repository.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

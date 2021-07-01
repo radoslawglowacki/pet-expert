@@ -1,6 +1,6 @@
-package com.radekdawid.petexpert.users.role.repository;
+package com.radekdawid.petexpert.users.user_role.repository;
 
-import com.radekdawid.petexpert.users.role.model.Role;
+import com.radekdawid.petexpert.users.user_role.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

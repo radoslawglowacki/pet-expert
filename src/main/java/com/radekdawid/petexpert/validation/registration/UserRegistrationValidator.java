@@ -1,8 +1,8 @@
 package com.radekdawid.petexpert.validation.registration;
 
 import com.radekdawid.petexpert.registration.request.UserRegistrationRequest;
-import com.radekdawid.petexpert.users.role.model.Role;
-import com.radekdawid.petexpert.users.role.service.RoleService;
+import com.radekdawid.petexpert.users.user_role.model.Role;
+import com.radekdawid.petexpert.users.user_role.service.RoleService;
 import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +42,7 @@ public class UserRegistrationValidator {
     public void userRoleChecker(UserRegistrationRequest request){
         Role role = roleService.getRole(request.getRoleId());
 
-        if(!role.getName().equals(userRole)){
+        if(!role.getName().equals(UserRegistrationValidator.userRole)){
             throw new IllegalStateException("Incorrect user role");
         }
     }

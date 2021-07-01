@@ -5,7 +5,7 @@ import com.radekdawid.petexpert.registration.request.ProviderRegistrationRequest
 import com.radekdawid.petexpert.registration.request.UserRegistrationRequest;
 import com.radekdawid.petexpert.registration.token.ConfirmationToken;
 import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
-import com.radekdawid.petexpert.users.role.service.RoleService;
+import com.radekdawid.petexpert.users.user_role.service.RoleService;
 import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
 import com.radekdawid.petexpert.users.user.service.UserService;
@@ -39,15 +39,10 @@ public class RegistrationService {
     private final UserService userService;
     private final UserRegistrationValidator userRegistrationValidator;
 
-    public String registerUser(@NotNull UserRegistrationRequest request) {
 
 //        TODO: if email not confirmed send confirmation email
 //        TODO: check of attributes are the same
-
-        userRegistrationValidator.userExistingChecker(request);
-        userRegistrationValidator.passwordChecker(request);
-        userRegistrationValidator.userRoleChecker(request);
-
+    public String registerUser(@NotNull UserRegistrationRequest request) {
         User newUser = createNewUser(request);
         String token = createToken(newUser);
         buildRegistrationEmail(request, token);
@@ -85,7 +80,12 @@ public class RegistrationService {
     }
 
 
+    @NotNull
     private User createNewUser(UserRegistrationRequest request) {
+        userRegistrationValidator.userExistingChecker(request);
+        userRegistrationValidator.passwordChecker(request);
+        userRegistrationValidator.userRoleChecker(request);
+
         User newUser = new User(request.getFirstName(), request.getLastName(), request.getEmail(),
                 request.getPassword());
         String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
@@ -106,7 +106,7 @@ public class RegistrationService {
 
     @SneakyThrows
     @Contract(pure = true)
-    private void buildRegistrationEmail(UserRegistrationRequest request, String token) {
+    private void buildRegistrationEmail(@NotNull UserRegistrationRequest request, String token) {
         ClassPathResource resource = new ClassPathResource("templates/registrationEmail.txt");
         InputStream inputStream = resource.getInputStream();
         String template = new BufferedReader(new InputStreamReader(inputStream))

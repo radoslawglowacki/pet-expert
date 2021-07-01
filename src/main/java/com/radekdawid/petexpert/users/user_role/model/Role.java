@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.users.role.model;
+package com.radekdawid.petexpert.users.user_role.model;
 
 import lombok.Data;
 
