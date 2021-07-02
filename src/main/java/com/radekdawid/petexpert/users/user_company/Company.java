@@ -20,7 +20,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Namecannot be null")
+    @NotNull(message = "Name can not be null")
     private String name;
 
     private String description;
