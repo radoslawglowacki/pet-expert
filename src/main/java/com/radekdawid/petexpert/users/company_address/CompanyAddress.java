@@ -2,6 +2,7 @@ package com.radekdawid.petexpert.users.company_address;
 
 
 import com.radekdawid.petexpert.users.user.model.User;
+import com.radekdawid.petexpert.users.user_company.Company;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,6 +28,6 @@ public class CompanyAddress {
     @NotNull(message = "Zip code cannot be null")
     private String zip;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+    @JoinColumn(nullable = false)
+    private Company company;
 }

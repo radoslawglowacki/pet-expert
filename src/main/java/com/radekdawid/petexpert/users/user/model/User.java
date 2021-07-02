@@ -88,7 +88,7 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public Set<UserAddress> getUserAddresses(){
+    public Set<UserAddress> getUserAddresses() {
         return addresses;
     }
 

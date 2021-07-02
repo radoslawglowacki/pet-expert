@@ -18,7 +18,6 @@ public class UserDetails {
     private Long id;
     private int nip;
     private String description;
-
     @OneToOne
     @JoinColumn
     private UserSocials socials;

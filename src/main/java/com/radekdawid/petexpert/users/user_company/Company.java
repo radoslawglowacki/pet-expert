@@ -2,7 +2,6 @@ package com.radekdawid.petexpert.users.user_company;
 
 
 import com.radekdawid.petexpert.users.company_address.CompanyAddress;
-import com.radekdawid.petexpert.users.user.model.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,8 +26,4 @@ public class Company {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<CompanyAddress> addresses = new HashSet<>();
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
-    private User user;
 }
