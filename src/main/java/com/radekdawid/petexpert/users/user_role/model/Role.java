@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-@Table(name = "roles")
+@Table(name = "user_role")
 public class Role {
 
     @Id

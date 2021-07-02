@@ -1,6 +1,7 @@
 package com.radekdawid.petexpert.users.user.model;
 
-import com.radekdawid.petexpert.users.user_address.model.Address;
+import com.radekdawid.petexpert.users.user_address.model.UserAddress;
+import com.radekdawid.petexpert.users.user_company.Company;
 import com.radekdawid.petexpert.users.user_role.model.Role;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,8 +52,12 @@ public class User implements UserDetails {
 
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Address> addresses = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<UserAddress> addresses = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Company> companies = new HashSet<>();
+
 
     private boolean locked = false;
     private boolean enabled = false;
@@ -78,7 +83,7 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public Set<Address> getAddresses(){
+    public Set<UserAddress> getUserAddresses(){
         return addresses;
     }
 

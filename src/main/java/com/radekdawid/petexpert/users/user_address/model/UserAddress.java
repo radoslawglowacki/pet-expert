@@ -9,9 +9,9 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-@Table(name = "user_addresses")
+@Table(name = "user_address")
 @NoArgsConstructor
-public class Address {
+public class UserAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
