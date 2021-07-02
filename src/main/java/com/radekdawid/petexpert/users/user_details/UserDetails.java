@@ -20,9 +20,17 @@ public class UserDetails {
     private Long id;
     @NotNull
     @Length(min = 10, max = 10)
+    @NotNull
     private int nip;
+    @Length(min = 9)
+    private int phone;
     private String description;
     @OneToOne
     @JoinColumn
     private UserSocials socials;
+
+    public UserDetails(@NotNull @Length(min = 10, max = 10) @NotNull int nip, @Length(min = 9) int phone) {
+        this.nip = nip;
+        this.phone = phone;
+    }
 }

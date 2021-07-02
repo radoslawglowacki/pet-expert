@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class UserRegistrationValidator {
+public class RegistrationValidator {
 
     private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
     private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
@@ -18,31 +18,31 @@ public class UserRegistrationValidator {
     public final UserAccessRepository userAccessRepository;
     public final RoleService roleService;
 
-    public UserRegistrationValidator(UserAccessRepository userAccessRepository, RoleService roleService) {
+    public RegistrationValidator(UserAccessRepository userAccessRepository, RoleService roleService) {
         this.userAccessRepository = userAccessRepository;
         this.roleService = roleService;
     }
 
-    public void passwordChecker(UserRegistrationRequest request){
-        Matcher matcherPassword = pattern.matcher(request.getPassword());
+    public void passwordChecker(String password){
+        Matcher matcherPassword = pattern.matcher(password);
 
         if (!matcherPassword.matches()) {
             throw new IllegalStateException("Incorrect password");
         }
     }
 
-    public void userExistingChecker(UserRegistrationRequest request){
-        boolean userExists = userAccessRepository.findByEmail(request.getEmail()).isPresent();
+    public void userExistingChecker(String email){
+        boolean userExists = userAccessRepository.findByEmail(email).isPresent();
 
         if (userExists) {
             throw new IllegalStateException("Email is already taken");
         }
     }
 
-    public void userRoleChecker(UserRegistrationRequest request){
-        Role role = roleService.getRole(request.getRoleId());
+    public void userRoleChecker(Long roleId){
+        Role role = roleService.getRole(roleId);
 
-        if(!role.getName().equals(UserRegistrationValidator.userRole)){
+        if(!role.getName().equals(RegistrationValidator.userRole)){
             throw new IllegalStateException("Incorrect user role");
         }
     }

@@ -4,6 +4,7 @@ import com.radekdawid.petexpert.registration.request.ProviderRegistrationRequest
 import com.radekdawid.petexpert.registration.request.UserRegistrationRequest;
 import com.radekdawid.petexpert.registration.service.ProviderRegistrationService;
 import com.radekdawid.petexpert.registration.service.UserRegistrationService;
+import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ public class RegistrationController {
 
     private final UserRegistrationService userRegistrationService;
     private final ProviderRegistrationService providerRegistrationService;
+    private final ConfirmationTokenService confirmationTokenService;
 
     @PostMapping("/user")
     public String register(@RequestBody UserRegistrationRequest request){
@@ -27,6 +29,6 @@ public class RegistrationController {
 
     @GetMapping(path = "/confirm")
     public String confirm(@RequestParam("token") String token){
-        return userRegistrationService.confirmToken(token);
+        return confirmationTokenService.confirmToken(token);
     }
 }

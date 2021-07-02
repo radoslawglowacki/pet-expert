@@ -1,7 +1,7 @@
 package com.radekdawid.petexpert.users.user_address.service;
 
 import com.radekdawid.petexpert.users.user_address.model.UserAddress;
-import com.radekdawid.petexpert.users.user_address.repository.AddressRepository;
+import com.radekdawid.petexpert.users.user_address.repository.UserAddressRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,13 +9,13 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class AddressService {
+public class UserAddressService {
 
-    private final AddressRepository addressRepository;
+    private final UserAddressRepository userAddressRepository;
 
     public UserAddress getAddress(Long id) {
 
-        Optional<UserAddress> address = addressRepository.getAddressById(id);
+        Optional<UserAddress> address = userAddressRepository.getAddressById(id);
 
         if (address.isEmpty()) {
             throw new IllegalStateException("That address does not exists");

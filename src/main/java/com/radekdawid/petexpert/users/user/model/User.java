@@ -84,14 +84,6 @@ public class User implements UserDetails {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public Set<UserAddress> getUserAddresses() {
-        return addresses;
-    }
-
     @Override
     public String getPassword() {
         return password;

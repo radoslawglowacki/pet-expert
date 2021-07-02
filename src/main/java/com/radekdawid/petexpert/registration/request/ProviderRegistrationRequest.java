@@ -17,6 +17,7 @@ public class ProviderRegistrationRequest {
     private final String password;
     private final String email;
     private final Long roleId;
+
     private final Long phone;
     private final Long nip;
     private final String userCity;
