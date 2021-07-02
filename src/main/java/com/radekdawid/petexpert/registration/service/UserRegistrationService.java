@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class RegistrationService {
+public class UserRegistrationService {
 
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
@@ -42,17 +42,14 @@ public class RegistrationService {
 
 //        TODO: if email not confirmed send confirmation email
 //        TODO: check of attributes are the same
-    public String registerUser(@NotNull UserRegistrationRequest request) {
+    public String register(@NotNull UserRegistrationRequest request) {
         User newUser = createNewUser(request);
         String token = createToken(newUser);
+
+        userAccessRepository.save(newUser);
         buildRegistrationEmail(request, token);
+
         return token;
-    }
-
-
-    public String registerProvider(ProviderRegistrationRequest request) {
-
-        return null;
     }
 
 
@@ -91,7 +88,6 @@ public class RegistrationService {
         String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
         newUser.setPassword(encodedPassword);
         newUser.addRole(roleService.getRole(request.getRoleId()));
-        userAccessRepository.save(newUser);
         return newUser;
     }
 

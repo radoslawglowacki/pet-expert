@@ -14,10 +14,10 @@ public class UserServices {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean groomer;
-    private boolean vet;
-    private boolean petsitter;
-    private boolean hotel;
+    private boolean groomer = false;
+    private boolean vet = false;
+    private boolean petsitter = false;
+    private boolean behaviorist = false;
     @OneToOne(mappedBy = "services")
     private User user;
 }
