@@ -59,10 +59,6 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Company> companies = new HashSet<>();
 
-    @OneToOne
-    @JoinColumn
-    private UserSocials socials;
-
 
     private boolean locked = false;
     private boolean enabled = false;

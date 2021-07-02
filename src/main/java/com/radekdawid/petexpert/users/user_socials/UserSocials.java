@@ -1,7 +1,7 @@
 package com.radekdawid.petexpert.users.user_socials;
 
 
-import com.radekdawid.petexpert.users.user.model.User;
+import com.radekdawid.petexpert.users.user_details.UserDetails;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,5 +19,5 @@ public class UserSocials {
     private String twitter;
     private String website;
     @OneToOne(mappedBy = "socials")
-    private User user;
+    private UserDetails user;
 }
