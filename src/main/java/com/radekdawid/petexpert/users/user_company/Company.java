@@ -25,8 +25,6 @@ public class Company {
 
     private String description;
 
-//    private Set<Photo> photos = new HashSet<>();
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<CompanyAddress> addresses = new HashSet<>();
 

@@ -20,6 +20,6 @@ public class CompanyAddressService {
             throw new IllegalStateException("That address does not exists");
         }
 
-        return (CompanyAddress) address.get();
+        return address.get();
     }
 }
