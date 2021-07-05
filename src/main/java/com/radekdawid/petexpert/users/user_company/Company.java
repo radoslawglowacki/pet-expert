@@ -2,15 +2,17 @@ package com.radekdawid.petexpert.users.user_company;
 
 
 import com.radekdawid.petexpert.users.company_address.CompanyAddress;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "user_company")
 @NoArgsConstructor
@@ -26,4 +28,12 @@ public class Company {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<CompanyAddress> addresses = new HashSet<>();
+
+    public Company(String name) {
+        this.name = name;
+    }
+
+    public void addAddress(CompanyAddress address){
+        addresses.add(address);
+    }
 }

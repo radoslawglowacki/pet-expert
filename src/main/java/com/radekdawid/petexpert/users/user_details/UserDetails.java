@@ -1,9 +1,11 @@
 package com.radekdawid.petexpert.users.user_details;
 
 
+import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user_socials.UserSocials;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -19,18 +21,20 @@ public class UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    @Length(min = 10, max = 10)
+    private Long nip;
     @NotNull
-    private int nip;
-    @Length(min = 9)
-    private int phone;
+    private Long phone;
     private String description;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private UserSocials socials;
 
-    public UserDetails(@NotNull @Length(min = 10, max = 10) @NotNull int nip, @Length(min = 9) int phone) {
+    @OneToOne(mappedBy = "details", cascade = CascadeType.ALL)
+    private User user;
+
+    public UserDetails(@NotNull @Length(min = 10, max = 10) @NotNull Long nip, @Length(min = 9) Long phone, User user) {
         this.nip = nip;
         this.phone = phone;
+        this.user = user;
     }
 }

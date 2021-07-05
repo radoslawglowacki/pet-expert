@@ -4,7 +4,6 @@ import com.radekdawid.petexpert.users.user_address.model.UserAddress;
 import com.radekdawid.petexpert.users.user_company.Company;
 import com.radekdawid.petexpert.users.user_role.model.Role;
 import com.radekdawid.petexpert.users.user_services.UserServices;
-import com.radekdawid.petexpert.users.user_socials.UserSocials;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,11 +17,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 @Builder
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
@@ -51,7 +50,6 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -60,9 +58,13 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Company> companies = new HashSet<>();
 
-    @OneToOne
+    @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
     private UserServices services;
+
+    @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn
+    private com.radekdawid.petexpert.users.user_details.UserDetails details;
 
     private boolean locked = false;
     private boolean enabled = false;
@@ -75,9 +77,24 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+
+
     public void addRole(Role role) {
         roles.add(role);
     }
+
+    public void addAddress(UserAddress address) {
+        addresses.add(address);
+    }
+
+    public void addCompany(Company company) {
+        companies.add(company);
+    }
+
+
+
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

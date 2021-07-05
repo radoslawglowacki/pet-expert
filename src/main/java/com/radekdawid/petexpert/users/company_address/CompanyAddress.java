@@ -1,15 +1,16 @@
 package com.radekdawid.petexpert.users.company_address;
 
 
-import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user_company.Company;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "company_address")
 @NoArgsConstructor
@@ -30,4 +31,13 @@ public class CompanyAddress {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private Company company;
+
+    public CompanyAddress(@NotNull(message = "City cannot be null") String city, @NotNull(message = "Street cannot be null") String street, @NotNull(message = "Number cannot be null") String number, String local, @NotNull(message = "Zip code cannot be null") String zip, Company company) {
+        this.city = city;
+        this.street = street;
+        this.number = number;
+        this.local = local;
+        this.zip = zip;
+        this.company = company;
+    }
 }

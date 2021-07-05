@@ -29,4 +29,13 @@ public class UserAddress {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
+
+    public UserAddress(String city, String street, String number, String local, String zip, User user) {
+        this.city = city;
+        this.street = street;
+        this.number = number;
+        this.local = local;
+        this.zip = zip;
+        this.user = user;
+    }
 }
