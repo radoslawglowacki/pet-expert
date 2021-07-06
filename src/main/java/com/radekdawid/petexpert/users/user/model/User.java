@@ -54,11 +54,6 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name="user_addresses",
-//            joinColumns = @JoinColumn( name="user_id"),
-//            inverseJoinColumns = @JoinColumn( name="address_id")
-//    )
     private Set<Address> addresses = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-@Table(name = "user_address")
+@Table(name = "address")
 @NoArgsConstructor
 
 public class Address {
@@ -25,9 +25,6 @@ public class Address {
     private String local;
     @NotNull(message = "Zip code cannot be null")
     private String zip;
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(nullable = false, name = "user_id")
-//    private User user;
 
 
     public Address(String city, String street, String number, String local, String zip) {
@@ -36,6 +33,5 @@ public class Address {
         this.number = number;
         this.local = local;
         this.zip = zip;
-//        this.user = user;
     }
 }
