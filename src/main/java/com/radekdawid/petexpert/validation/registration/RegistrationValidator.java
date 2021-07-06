@@ -1,8 +1,8 @@
 package com.radekdawid.petexpert.validation.registration;
 
 import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
-import com.radekdawid.petexpert.users.user_role.model.Role;
-import com.radekdawid.petexpert.users.user_role.service.RoleService;
+import com.radekdawid.petexpert.users.role.model.Role;
+import com.radekdawid.petexpert.users.role.service.RoleService;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Matcher;

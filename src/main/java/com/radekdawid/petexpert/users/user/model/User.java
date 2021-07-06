@@ -1,9 +1,10 @@
 package com.radekdawid.petexpert.users.user.model;
 
-import com.radekdawid.petexpert.users.user_address.model.UserAddress;
-import com.radekdawid.petexpert.users.user_company.Company;
-import com.radekdawid.petexpert.users.user_role.model.Role;
-import com.radekdawid.petexpert.users.user_services.UserServices;
+import com.radekdawid.petexpert.users.address.model.Address;
+import com.radekdawid.petexpert.users.company.model.Company;
+import com.radekdawid.petexpert.users.details.model.Details;
+import com.radekdawid.petexpert.users.role.model.Role;
+import com.radekdawid.petexpert.users.services.model.Services;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -53,18 +54,23 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<UserAddress> addresses = new HashSet<>();
+//    @JoinTable(
+//            name="user_addresses",
+//            joinColumns = @JoinColumn( name="user_id"),
+//            inverseJoinColumns = @JoinColumn( name="address_id")
+//    )
+    private Set<Address> addresses = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Company> companies = new HashSet<>();
 
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
-    private UserServices services;
+    private Services services;
 
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
-    private com.radekdawid.petexpert.users.user_details.UserDetails details;
+    private Details details;
 
     private boolean locked = false;
     private boolean enabled = false;
@@ -83,7 +89,7 @@ public class User implements UserDetails {
         roles.add(role);
     }
 
-    public void addAddress(UserAddress address) {
+    public void addAddress(Address address) {
         addresses.add(address);
     }
 

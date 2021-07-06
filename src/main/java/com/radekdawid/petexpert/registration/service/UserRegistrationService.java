@@ -5,7 +5,7 @@ import com.radekdawid.petexpert.registration.request.UserRegistrationRequest;
 import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
 import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
-import com.radekdawid.petexpert.users.user_role.service.RoleService;
+import com.radekdawid.petexpert.users.role.service.RoleService;
 import com.radekdawid.petexpert.validation.registration.RegistrationValidator;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;

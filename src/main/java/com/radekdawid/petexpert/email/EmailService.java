@@ -46,7 +46,7 @@ public class EmailService implements EmailSender{
     @SneakyThrows
     @Contract(pure = true)
     public void buildRegistrationEmail(String firstName, String email, String token) {
-        ClassPathResource resource = new ClassPathResource("templates/registrationEmail.txt");
+        ClassPathResource resource = new ClassPathResource("templates/registrationEmail.html");
         InputStream inputStream = resource.getInputStream();
         String template = new BufferedReader(new InputStreamReader(inputStream))
                 .lines().collect(Collectors.joining());
