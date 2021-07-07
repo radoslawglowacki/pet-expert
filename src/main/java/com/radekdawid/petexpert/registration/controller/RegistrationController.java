@@ -6,7 +6,10 @@ import com.radekdawid.petexpert.registration.service.ProviderRegistrationService
 import com.radekdawid.petexpert.registration.service.UserRegistrationService;
 import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("api/v1/registration")
@@ -27,8 +30,11 @@ public class RegistrationController {
         return providerRegistrationService.register(request);
     }
 
+    @SneakyThrows
     @GetMapping(path = "/confirm")
-    public String confirm(@RequestParam("token") String token){
-        return confirmationTokenService.confirmToken(token);
+    public void confirm(@RequestParam("token") String token, HttpServletResponse response){
+        confirmationTokenService.confirmToken(token);
+//        TODO: app properties
+        response.sendRedirect("http://localhost:3000");
     }
 }

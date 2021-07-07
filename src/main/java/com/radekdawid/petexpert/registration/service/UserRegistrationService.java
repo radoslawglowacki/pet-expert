@@ -41,13 +41,13 @@ public class UserRegistrationService {
     private User createNewUser(UserRegistrationRequest request) {
         registrationValidator.userExistingChecker(request.getEmail());
         registrationValidator.passwordChecker(request.getPassword());
-        registrationValidator.userRoleChecker(request.getRoleId());
 
         User newUser = new User(request.getFirstName(), request.getLastName(), request.getEmail(),
                 request.getPassword());
         String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
         newUser.setPassword(encodedPassword);
-        newUser.addRole(roleService.getRole(request.getRoleId()));
+//        TODO create field
+        newUser.addRole(roleService.getRole(1L));
         return newUser;
     }
 }

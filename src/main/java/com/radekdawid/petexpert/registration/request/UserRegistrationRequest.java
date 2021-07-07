@@ -15,5 +15,4 @@ public class UserRegistrationRequest {
     private final String lastName;
     private final String password;
     private final String email;
-    private final Long roleId;
 }

@@ -42,13 +42,13 @@ public class ProviderRegistrationService {
     private User createNewUser(@NotNull ProviderRegistrationRequest request) {
         registrationValidator.userExistingChecker(request.getEmail());
         registrationValidator.passwordChecker(request.getPassword());
-        registrationValidator.providerRoleChecker(request.getRoleId());
 
         User newUser = new User(request.getFirstName(), request.getLastName(), request.getEmail(),
                 request.getPassword());
         String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
         newUser.setPassword(encodedPassword);
-        newUser.addRole(roleService.getRole(request.getRoleId()));
+//        TODO: field
+        newUser.addRole(roleService.getRole(2L));
 
         Address address = new Address(request.getUserCity(), request.getUserStreet(), request.getUserNumber(),
                 request.getUserLocal(), request.getUserZip());

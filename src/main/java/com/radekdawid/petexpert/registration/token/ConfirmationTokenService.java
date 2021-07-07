@@ -41,7 +41,7 @@ public class ConfirmationTokenService {
     }
 
     @Transactional
-    public String confirmToken(String token) {
+    public void confirmToken(String token) {
         ConfirmationToken confirmationToken = getToken(token)
                 .orElseThrow(() ->
                         new IllegalStateException("token not found"));
@@ -57,8 +57,6 @@ public class ConfirmationTokenService {
         }
 
         setConfirmedAt(token);
-        userService.enableAppUser(
-                confirmationToken.getUser().getEmail());
-        return "Provider account confirmed";
+        userService.enableAppUser(confirmationToken.getUser().getEmail());
     }
 }
