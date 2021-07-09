@@ -29,7 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .anyRequest()
                 .authenticated().and()
-                .formLogin();
+                .formLogin()
+                .loginPage("/login")
+                .permitAll();
 
 //        https://docs.spring.io/spring-security/site/docs/4.1.3.RELEASE/guides/html5/form-javaconfig.html
     }

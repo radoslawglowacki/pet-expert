@@ -27,14 +27,14 @@ public class ProviderRegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final UserAccessRepository userAccessRepository;
     private final EmailService emailService;
+    private final Long providerRoleNumber = 2L;
 
-    public String register(ProviderRegistrationRequest request) {
+    public void register(ProviderRegistrationRequest request) {
         User newUser = createNewUser(request);
         String token = confirmationTokenService.createToken(newUser);
 
         emailService.buildRegistrationEmail(request.getFirstName(), request.getEmail(), token);
         userAccessRepository.save(newUser);
-        return token;
     }
 
 
@@ -47,29 +47,22 @@ public class ProviderRegistrationService {
                 request.getPassword());
         String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
         newUser.setPassword(encodedPassword);
-//        TODO: field
-        newUser.addRole(roleService.getRole(2L));
-
-        Address address = new Address(request.getUserCity(), request.getUserStreet(), request.getUserNumber(),
-                request.getUserLocal(), request.getUserZip());
-//        UserAddress userAddress = new UserAddress(request.getUserCity(), request.getUserStreet(), request.getUserNumber(),
-//                request.getUserLocal(), request.getUserZip(), newUser);
-        newUser.addAddress(address);
-
-        Company company = new Company(request.getCompanyName());
-        Address companyAddress = new Address(request.getCompanyCity(), request.getCompanyStreet(), request.getCompanyNumber(), request.getCompanyLocal(), request.getCompanyZip());
-        company.addAddress(companyAddress);
-        newUser.addCompany(company);
-
-        Details details = new Details(request.getNip(), request.getPhone(), newUser);
-        newUser.setDetails(details);
-
-        Services services = new Services(request.isGroomer(), request.isVet(), request.isPetsitter(), request.isBehaviorist(), newUser);
-        newUser.setServices(services);
+        newUser.addRole(roleService.getRole(providerRoleNumber));
+        newUser.addAddress(new Address(request.getUserCity(), request.getUserStreet(), request.getUserNumber(),
+                request.getUserLocal(), request.getUserZip()));
+        newUser.addCompany(createUserCompany(request));
+        newUser.setDetails(new Details(request.getNip(), request.getPhone(), newUser));
+        newUser.setServices(new Services(request.isGroomer(), request.isVet(), request.isPetsitter(), request.isBehaviorist(), newUser));
 
         return newUser;
     }
 
+    private Company createUserCompany(@NotNull ProviderRegistrationRequest request){
+        Company company = new Company(request.getCompanyName());
+        Address companyAddress = new Address(request.getCompanyCity(), request.getCompanyStreet(), request.getCompanyNumber(), request.getCompanyLocal(), request.getCompanyZip());
+        company.addAddress(companyAddress);
+        return company;
+    }
 
 }
 

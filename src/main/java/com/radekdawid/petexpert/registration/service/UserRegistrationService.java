@@ -23,17 +23,16 @@ public class UserRegistrationService {
     private final RoleService roleService;
     private final RegistrationValidator registrationValidator;
     private final EmailService emailService;
+    private final Long userRoleNumber = 1L;
 
     //        TODO: if email not confirmed send confirmation email
 //        TODO: check of attributes are the same
-    public String register(@NotNull UserRegistrationRequest request) {
+    public void register(@NotNull UserRegistrationRequest request) {
         User newUser = createNewUser(request);
         String token = confirmationTokenService.createToken(newUser);
 
         userAccessRepository.save(newUser);
         emailService.buildRegistrationEmail(request.getFirstName(), request.getEmail(), token);
-
-        return token;
     }
 
 
@@ -46,8 +45,7 @@ public class UserRegistrationService {
                 request.getPassword());
         String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
         newUser.setPassword(encodedPassword);
-//        TODO create field
-        newUser.addRole(roleService.getRole(1L));
+        newUser.addRole(roleService.getRole(userRoleNumber));
         return newUser;
     }
 }

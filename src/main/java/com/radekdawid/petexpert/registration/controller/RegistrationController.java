@@ -7,6 +7,7 @@ import com.radekdawid.petexpert.registration.service.UserRegistrationService;
 import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -19,22 +20,22 @@ public class RegistrationController {
     private final UserRegistrationService userRegistrationService;
     private final ProviderRegistrationService providerRegistrationService;
     private final ConfirmationTokenService confirmationTokenService;
+    private final Environment env;
 
     @PostMapping("/user")
-    public String register(@RequestBody UserRegistrationRequest request){
-        return userRegistrationService.register(request);
+    public void register(@RequestBody UserRegistrationRequest request){
+        userRegistrationService.register(request);
     }
 
     @PostMapping("/provider")
-    public String register(@RequestBody ProviderRegistrationRequest request){
-        return providerRegistrationService.register(request);
+    public void register(@RequestBody ProviderRegistrationRequest request){
+        providerRegistrationService.register(request);
     }
 
     @SneakyThrows
     @GetMapping(path = "/confirm")
     public void confirm(@RequestParam("token") String token, HttpServletResponse response){
         confirmationTokenService.confirmToken(token);
-//        TODO: app properties
-        response.sendRedirect("http://localhost:3000");
+        response.sendRedirect(env.getProperty("PET_EXPERT_MAIN_PAGE"));
     }
 }
