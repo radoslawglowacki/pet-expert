@@ -1,7 +1,7 @@
 package com.radekdawid.petexpert.registration.controller;
 
-import com.radekdawid.petexpert.registration.request.ProviderRegistrationRequest;
-import com.radekdawid.petexpert.registration.request.UserRegistrationRequest;
+import com.radekdawid.petexpert.registration.payload.request.ProviderRegistrationRequest;
+import com.radekdawid.petexpert.registration.payload.request.UserRegistrationRequest;
 import com.radekdawid.petexpert.registration.service.ProviderRegistrationService;
 import com.radekdawid.petexpert.registration.service.UserRegistrationService;
 import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
