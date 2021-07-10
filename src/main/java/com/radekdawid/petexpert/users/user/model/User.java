@@ -15,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -135,4 +136,7 @@ public class User implements UserDetails {
     }
 
 
+    public Long getId() {
+        return user_id;
+    }
 }

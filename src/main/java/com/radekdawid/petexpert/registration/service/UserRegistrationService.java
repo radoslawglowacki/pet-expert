@@ -1,7 +1,7 @@
 package com.radekdawid.petexpert.registration.service;
 
 import com.radekdawid.petexpert.email.EmailService;
-import com.radekdawid.petexpert.registration.request.UserRegistrationRequest;
+import com.radekdawid.petexpert.registration.payload.request.UserRegistrationRequest;
 import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
 import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
