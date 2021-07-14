@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.registration.token;
+package com.radekdawid.petexpert.authentication.token;
 
 import com.radekdawid.petexpert.users.user.model.User;
 import lombok.Data;

@@ -1,7 +1,7 @@
-package com.radekdawid.petexpert.registration.controller;
+package com.radekdawid.petexpert.authentication.controller;
 
-import com.radekdawid.petexpert.registration.payload.request.LoginRequest;
-import com.radekdawid.petexpert.registration.service.LoginService;
+import com.radekdawid.petexpert.authentication.payload.request.LoginRequest;
+import com.radekdawid.petexpert.authentication.service.LoginService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

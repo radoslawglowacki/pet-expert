@@ -1,7 +1,7 @@
-package com.radekdawid.petexpert.registration.service;
+package com.radekdawid.petexpert.authentication.service;
 
-import com.radekdawid.petexpert.registration.payload.request.LoginRequest;
-import com.radekdawid.petexpert.registration.payload.response.JwtResponse;
+import com.radekdawid.petexpert.authentication.payload.request.LoginRequest;
+import com.radekdawid.petexpert.authentication.payload.response.JwtResponse;
 import com.radekdawid.petexpert.security.jwt.JwtUtils;
 import com.radekdawid.petexpert.users.user.model.User;
 import lombok.AllArgsConstructor;

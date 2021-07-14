@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.registration.payload.response;
+package com.radekdawid.petexpert.authentication.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

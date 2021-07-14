@@ -1,8 +1,8 @@
-package com.radekdawid.petexpert.registration.service;
+package com.radekdawid.petexpert.authentication.service;
 
 import com.radekdawid.petexpert.email.EmailService;
-import com.radekdawid.petexpert.registration.payload.request.ProviderRegistrationRequest;
-import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
+import com.radekdawid.petexpert.authentication.payload.request.ProviderRegistrationRequest;
+import com.radekdawid.petexpert.authentication.token.ConfirmationTokenService;
 import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
 import com.radekdawid.petexpert.users.address.model.Address;

@@ -1,10 +1,10 @@
-package com.radekdawid.petexpert.registration.controller;
+package com.radekdawid.petexpert.authentication.controller;
 
-import com.radekdawid.petexpert.registration.payload.request.ProviderRegistrationRequest;
-import com.radekdawid.petexpert.registration.payload.request.UserRegistrationRequest;
-import com.radekdawid.petexpert.registration.service.ProviderRegistrationService;
-import com.radekdawid.petexpert.registration.service.UserRegistrationService;
-import com.radekdawid.petexpert.registration.token.ConfirmationTokenService;
+import com.radekdawid.petexpert.authentication.payload.request.ProviderRegistrationRequest;
+import com.radekdawid.petexpert.authentication.payload.request.UserRegistrationRequest;
+import com.radekdawid.petexpert.authentication.service.ProviderRegistrationService;
+import com.radekdawid.petexpert.authentication.service.UserRegistrationService;
+import com.radekdawid.petexpert.authentication.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.env.Environment;
