@@ -20,8 +20,6 @@ public class LoginController {
 
     @PostMapping(path = "/signin", consumes = "application/json")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        System.out.println(loginRequest.getEmail());
-        System.out.println(loginRequest.getPassword());
         return loginService.loginUser(loginRequest);
     }
 
