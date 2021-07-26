@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-@Table(name = "user_details")
+@Table(name = "details")
 @NoArgsConstructor
 public class Details {
 

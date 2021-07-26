@@ -3,6 +3,7 @@ package com.radekdawid.petexpert.users.user.model;
 import com.radekdawid.petexpert.users.address.model.Address;
 import com.radekdawid.petexpert.users.company.model.Company;
 import com.radekdawid.petexpert.users.details.model.Details;
+import com.radekdawid.petexpert.users.offer.model.Offer;
 import com.radekdawid.petexpert.users.role.model.Role;
 import com.radekdawid.petexpert.users.services.model.Services;
 import lombok.*;
@@ -15,7 +16,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class User implements UserDetails {
     @Id
-    @Column(name = "user_id")
+    @Column(name = "id")
     @SequenceGenerator(
             name = "user_sequence",
             sequenceName = "user_sequence",
@@ -38,7 +38,7 @@ public class User implements UserDetails {
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
-    private Long user_id;
+    private Long id;
 
     @NotNull(message = "Name cannot be null")
     private String firstName;
@@ -59,6 +59,9 @@ public class User implements UserDetails {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Company> companies = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Offer> offers = new HashSet<>();
 
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
@@ -93,8 +96,7 @@ public class User implements UserDetails {
         companies.add(company);
     }
 
-
-
+    public void addOffer(Offer offer){offers.add(offer);}
 
 
 
@@ -137,6 +139,6 @@ public class User implements UserDetails {
 
 
     public Long getId() {
-        return user_id;
+        return id;
     }
 }

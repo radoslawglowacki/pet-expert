@@ -13,6 +13,7 @@ public class RoleService {
 
     private final RoleRepository roleRepository;
 
+
     public Role getRole(Long id) {
 
         Optional role = roleRepository.getRoleById(id);
