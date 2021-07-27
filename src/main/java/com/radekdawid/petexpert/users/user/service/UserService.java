@@ -45,6 +45,10 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public User getUserById(Long id){
+        return userAccessRepository.getById(id);
+    }
+
 
     public void enableAppUser(String email) {
         userAccessRepository.enableUser(email);

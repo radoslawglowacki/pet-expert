@@ -3,6 +3,8 @@ package com.radekdawid.petexpert.authentication.service;
 import com.radekdawid.petexpert.email.EmailService;
 import com.radekdawid.petexpert.authentication.payload.request.ProviderRegistrationRequest;
 import com.radekdawid.petexpert.authentication.token.ConfirmationTokenService;
+import com.radekdawid.petexpert.users.services.repository.ServicesRepository;
+import com.radekdawid.petexpert.users.services.service.ServicesService;
 import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
 import com.radekdawid.petexpert.users.address.model.Address;
@@ -16,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ProviderRegistrationService {
@@ -27,6 +31,7 @@ public class ProviderRegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final UserAccessRepository userAccessRepository;
     private final EmailService emailService;
+    private final ServicesService servicesService;
     private final Long providerRoleNumber = 2L;
 
     public void register(ProviderRegistrationRequest request) {
@@ -48,11 +53,11 @@ public class ProviderRegistrationService {
         String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
         newUser.setPassword(encodedPassword);
         newUser.addRole(roleService.getRole(providerRoleNumber));
-        newUser.addAddress(new Address(request.getUserCity(), request.getUserStreet(), request.getUserNumber(),
+        newUser.setAddress(new Address(request.getUserCity(), request.getUserStreet(), request.getUserNumber(),
                 request.getUserLocal(), request.getUserZip()));
         newUser.addCompany(createUserCompany(request));
         newUser.setDetails(new Details(request.getNip(), request.getPhone(), newUser));
-        newUser.setServices(new Services(request.isGroomer(), request.isVet(), request.isPetsitter(), request.isBehaviorist(), newUser));
+        newUser = addServicesToUser(newUser, request.getServices());
 
         return newUser;
     }
@@ -62,6 +67,13 @@ public class ProviderRegistrationService {
         Address companyAddress = new Address(request.getCompanyCity(), request.getCompanyStreet(), request.getCompanyNumber(), request.getCompanyLocal(), request.getCompanyZip());
         company.addAddress(companyAddress);
         return company;
+    }
+
+    private User addServicesToUser(User user, List<Long> services){
+        for (Long serviceId: services) {
+            user.addService(servicesService.getService(serviceId));
+        }
+        return user;
     }
 
 }

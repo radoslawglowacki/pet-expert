@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -33,10 +35,7 @@ public class ProviderRegistrationRequest {
     private final String companyLocal;
     private final String companyZip;
 
-    private final boolean groomer;
-    private final boolean vet;
-    private final boolean petsitter;
-    private final boolean behaviorist;
+    private final List<Long> services;
 
     private final String adminMessage;
 

@@ -54,8 +54,8 @@ public class User implements UserDetails {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Address> addresses = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Services> services = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Company> companies = new HashSet<>();
@@ -65,11 +65,11 @@ public class User implements UserDetails {
 
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
-    private Services services;
+    private Details details;
 
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
-    private Details details;
+    private Address address;
 
     private boolean locked = false;
     private boolean enabled = false;
@@ -88,15 +88,14 @@ public class User implements UserDetails {
         roles.add(role);
     }
 
-    public void addAddress(Address address) {
-        addresses.add(address);
-    }
-
     public void addCompany(Company company) {
         companies.add(company);
     }
 
     public void addOffer(Offer offer){offers.add(offer);}
+
+    public void addService(Services service){services.add(service);}
+
 
 
 

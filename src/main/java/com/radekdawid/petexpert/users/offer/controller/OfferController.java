@@ -1,6 +1,7 @@
 package com.radekdawid.petexpert.users.offer.controller;
 
 
+import com.radekdawid.petexpert.users.offer.dto.OfferDto;
 import com.radekdawid.petexpert.users.offer.model.Offer;
 import com.radekdawid.petexpert.users.offer.model.OfferPage;
 import com.radekdawid.petexpert.users.offer.service.OfferService;
@@ -18,13 +19,14 @@ public class OfferController {
     private final OfferService offerService;
 
     @GetMapping
-    public ResponseEntity<Page<Offer>> getOffers(OfferPage offerPage){
+    public ResponseEntity<Page<OfferDto>> getOffers(OfferPage offerPage){
         return new ResponseEntity<>(offerService.getOffers(offerPage), HttpStatus.OK);
     }
 
+
     @PostMapping
-    public ResponseEntity<Offer> addOffer(@RequestBody Offer offer, Long id){
-        return new ResponseEntity<>(offerService.addOffer(offer, id), HttpStatus.OK);
+    public ResponseEntity<OfferDto> addOffer(@RequestBody OfferDto offerDto){
+        return new ResponseEntity<>(offerService.addOffer(offerDto), HttpStatus.OK);
     }
 
 }
