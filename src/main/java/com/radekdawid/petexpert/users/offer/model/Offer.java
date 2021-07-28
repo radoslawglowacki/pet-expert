@@ -42,7 +42,7 @@ public class Offer {
     private Long drivingRadius = 0L;
 
     @NotNull
-    private String City;
+    private String city;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
@@ -66,6 +66,7 @@ public class Offer {
         this.drivingRadius = drivingRadius;
         this.service = service;
         this.user = user;
+        this.city = city;
     }
 
 }
