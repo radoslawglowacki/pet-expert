@@ -41,6 +41,9 @@ public class Offer {
     @NotNull
     private Long drivingRadius = 0L;
 
+    @NotNull
+    private String City;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
     private Services service;
@@ -54,7 +57,7 @@ public class Offer {
 
 
     public Offer(@NotNull(message = "Name cannot be null") String name, @NotNull(message = "Description cannot be null") String description, @NotNull(message = "Price cannot be null") Long price,
-                 @NotNull boolean drivingToClient, Long drivingRadius, Services service, User user) {
+                 @NotNull boolean drivingToClient, Long drivingRadius, String city, Services service, User user) {
         this.name = name;
         this.description = description;
         this.price = price;

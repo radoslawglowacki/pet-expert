@@ -22,16 +22,15 @@ public class OfferMapper {
 
     public OfferDto map(Offer offer){
         User user = offer.getUser();
-        String city = user.getAddress().getCity();
 
         return new OfferDto(offer.getId(), offer.getName(), offer.getDescription(), offer.getPrice(), offer.isDrivingToClient(),
-               offer.getDrivingRadius(), city, offer.getService().getId(), user.getId(), user.getFirstName());
+               offer.getDrivingRadius(), offer.getCity(), offer.getService().getId(), user.getId(), user.getFirstName());
     }
 
     public Offer map(OfferDto offerDto){
         Services service = servicesService.getService(offerDto.getServiceId());
         User userById = userService.getUserById(offerDto.getProviderId());
         return new Offer(offerDto.getName(), offerDto.getDescription(), offerDto.getPrice(),
-                offerDto.isDrivingToClient(), offerDto.getDrivingRadius(), service, userById);
+                offerDto.isDrivingToClient(), offerDto.getDrivingRadius(), offerDto.getCity(), service, userById);
     }
 }
