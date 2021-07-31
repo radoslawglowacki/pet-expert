@@ -60,9 +60,6 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Company> companies = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Offer> offers = new HashSet<>();
-
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
     private Details details;
@@ -91,8 +88,6 @@ public class User implements UserDetails {
     public void addCompany(Company company) {
         companies.add(company);
     }
-
-    public void addOffer(Offer offer){offers.add(offer);}
 
     public void addService(Services service){services.add(service);}
 

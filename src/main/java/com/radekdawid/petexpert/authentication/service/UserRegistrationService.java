@@ -4,7 +4,7 @@ import com.radekdawid.petexpert.email.EmailService;
 import com.radekdawid.petexpert.authentication.payload.request.UserRegistrationRequest;
 import com.radekdawid.petexpert.authentication.token.ConfirmationTokenService;
 import com.radekdawid.petexpert.users.user.model.User;
-import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
+import com.radekdawid.petexpert.users.user.repository.UserRepository;
 import com.radekdawid.petexpert.users.role.service.RoleService;
 import com.radekdawid.petexpert.validation.registration.RegistrationValidator;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class UserRegistrationService {
 
     private final ConfirmationTokenService confirmationTokenService;
-    private final UserAccessRepository userAccessRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleService roleService;
     private final RegistrationValidator registrationValidator;
@@ -31,7 +31,7 @@ public class UserRegistrationService {
         User newUser = createNewUser(request);
         String token = confirmationTokenService.createToken(newUser);
 
-        userAccessRepository.save(newUser);
+        userRepository.save(newUser);
         emailService.buildRegistrationEmail(request.getFirstName(), request.getEmail(), token);
     }
 

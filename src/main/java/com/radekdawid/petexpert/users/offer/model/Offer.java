@@ -1,6 +1,7 @@
 package com.radekdawid.petexpert.users.offer.model;
 
 
+import com.radekdawid.petexpert.users.company.model.Company;
 import com.radekdawid.petexpert.users.services.model.Services;
 import com.radekdawid.petexpert.users.user.model.User;
 import lombok.*;
@@ -49,7 +50,7 @@ public class Offer {
     private Services service;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private User user;
+    private Company company;
 
 
 //    TODO: add rating
@@ -57,7 +58,7 @@ public class Offer {
 
 
     public Offer(@NotNull(message = "Name cannot be null") String name, @NotNull(message = "Description cannot be null") String description, @NotNull(message = "Price cannot be null") Long price,
-                 @NotNull boolean drivingToClient, Long drivingRadius, String city, Services service, User user) {
+                 @NotNull boolean drivingToClient, Long drivingRadius, String city, Services service, Company company) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -65,7 +66,7 @@ public class Offer {
         this.drivingToClient = drivingToClient;
         this.drivingRadius = drivingRadius;
         this.service = service;
-        this.user = user;
+        this.company = company;
         this.city = city;
     }
 

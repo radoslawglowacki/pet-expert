@@ -1,36 +1,35 @@
 package com.radekdawid.petexpert.users.offer.mapper;
 
 
+import com.radekdawid.petexpert.users.company.model.Company;
+import com.radekdawid.petexpert.users.company.service.CompanyService;
 import com.radekdawid.petexpert.users.offer.dto.OfferDto;
 import com.radekdawid.petexpert.users.offer.model.Offer;
 import com.radekdawid.petexpert.users.services.model.Services;
 import com.radekdawid.petexpert.users.services.service.ServicesService;
-import com.radekdawid.petexpert.users.user.model.User;
-import com.radekdawid.petexpert.users.user.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class OfferMapper {
 
     private final ServicesService servicesService;
-    private final UserService userService;
+    private final CompanyService companyService;
 
-    public OfferMapper(ServicesService servicesService, UserService userService) {
-        this.servicesService = servicesService;
-        this.userService = userService;
-    }
-
-    public OfferDto map(Offer offer){
-        User user = offer.getUser();
+    public OfferDto map(Offer offer) {
+        Company company = offer.getCompany();
 
         return new OfferDto(offer.getId(), offer.getName(), offer.getDescription(), offer.getPrice(), offer.isDrivingToClient(),
-               offer.getDrivingRadius(), offer.getCity(), offer.getService().getId(), user.getId(), user.getFirstName());
+                offer.getDrivingRadius(), offer.getCity(), offer.getService().getId(), company.getId(), company.getName());
     }
 
-    public Offer map(OfferDto offerDto){
+    public Offer map(OfferDto offerDto) {
         Services service = servicesService.getService(offerDto.getServiceId());
-        User userById = userService.getUserById(offerDto.getProviderId());
+
+        Company company = companyService.getCompanyById(offerDto.getProviderId());
+
         return new Offer(offerDto.getName(), offerDto.getDescription(), offerDto.getPrice(),
-                offerDto.isDrivingToClient(), offerDto.getDrivingRadius(), offerDto.getCity(), service, userById);
+                offerDto.isDrivingToClient(), offerDto.getDrivingRadius(), offerDto.getCity(), service, company);
     }
 }

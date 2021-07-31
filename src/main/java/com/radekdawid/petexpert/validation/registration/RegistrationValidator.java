@@ -1,6 +1,6 @@
 package com.radekdawid.petexpert.validation.registration;
 
-import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
+import com.radekdawid.petexpert.users.user.repository.UserRepository;
 import com.radekdawid.petexpert.users.role.model.Role;
 import com.radekdawid.petexpert.users.role.service.RoleService;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,11 @@ public class RegistrationValidator {
     private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
     private static final String userRole = "USER";
     private static final String providerRole = "PROVIDER";
-    public final UserAccessRepository userAccessRepository;
+    public final UserRepository userRepository;
     public final RoleService roleService;
 
-    public RegistrationValidator(UserAccessRepository userAccessRepository, RoleService roleService) {
-        this.userAccessRepository = userAccessRepository;
+    public RegistrationValidator(UserRepository userRepository, RoleService roleService) {
+        this.userRepository = userRepository;
         this.roleService = roleService;
     }
 
@@ -32,7 +32,7 @@ public class RegistrationValidator {
     }
 
     public void userExistingChecker(String email) {
-        boolean userExists = userAccessRepository.findByEmail(email).isPresent();
+        boolean userExists = userRepository.findByEmail(email).isPresent();
 
         if (userExists) {
             throw new IllegalStateException("Email is already taken");

@@ -2,6 +2,7 @@ package com.radekdawid.petexpert.users.company.model;
 
 
 import com.radekdawid.petexpert.users.address.model.Address;
+import com.radekdawid.petexpert.users.offer.model.Offer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +30,9 @@ public class Company {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Address> addresses = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Offer> offers = new HashSet<>();
+
     public Company(String name) {
         this.name = name;
     }
@@ -36,4 +40,6 @@ public class Company {
     public void addAddress(Address address){
         addresses.add(address);
     }
+
+    public void addOffer(Offer offer){offers.add(offer);}
 }

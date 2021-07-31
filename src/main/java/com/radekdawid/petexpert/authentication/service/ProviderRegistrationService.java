@@ -3,15 +3,13 @@ package com.radekdawid.petexpert.authentication.service;
 import com.radekdawid.petexpert.email.EmailService;
 import com.radekdawid.petexpert.authentication.payload.request.ProviderRegistrationRequest;
 import com.radekdawid.petexpert.authentication.token.ConfirmationTokenService;
-import com.radekdawid.petexpert.users.services.repository.ServicesRepository;
 import com.radekdawid.petexpert.users.services.service.ServicesService;
 import com.radekdawid.petexpert.users.user.model.User;
-import com.radekdawid.petexpert.users.user.repository.UserAccessRepository;
+import com.radekdawid.petexpert.users.user.repository.UserRepository;
 import com.radekdawid.petexpert.users.address.model.Address;
 import com.radekdawid.petexpert.users.company.model.Company;
 import com.radekdawid.petexpert.users.details.model.Details;
 import com.radekdawid.petexpert.users.role.service.RoleService;
-import com.radekdawid.petexpert.users.services.model.Services;
 import com.radekdawid.petexpert.validation.registration.RegistrationValidator;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +27,7 @@ public class ProviderRegistrationService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RoleService roleService;
     private final ConfirmationTokenService confirmationTokenService;
-    private final UserAccessRepository userAccessRepository;
+    private final UserRepository userRepository;
     private final EmailService emailService;
     private final ServicesService servicesService;
     private final Long providerRoleNumber = 2L;
@@ -39,7 +37,7 @@ public class ProviderRegistrationService {
         String token = confirmationTokenService.createToken(newUser);
 
         emailService.buildRegistrationEmail(request.getFirstName(), request.getEmail(), token);
-        userAccessRepository.save(newUser);
+        userRepository.save(newUser);
     }
 
 
