@@ -33,6 +33,24 @@ INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to
 INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(3, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 2, 1);
 INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(4, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 2);
 INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(5, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(6, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(7, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(8, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(9, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(10, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(11, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(12, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(13, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(14, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(15, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(16, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(17, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(18, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(19, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(20, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(21, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(22, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
+INSERT INTO offers(id, city, created_at, description, driving_radius, driving_to_client, name, price, company_id, service_id) VALUES(23, 'Warszawa', current_date, 'description', 10, true, 'name offer 3', 100, 3, 3);
 
 INSERT INTO company_addresses(company_id, addresses_id) VALUES(1,4);
 INSERT INTO company_addresses(company_id, addresses_id) VALUES(2,5);

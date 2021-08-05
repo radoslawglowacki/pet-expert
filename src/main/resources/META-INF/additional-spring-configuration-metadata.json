@@ -9,5 +9,10 @@
       "name": "petexpert.mainpage",
       "type": "java.lang.String",
       "description": "Description for petexpert.mainpage."
+    },
+    {
+      "name": "petexpert.mainpage",
+      "type": "java.lang.String",
+      "description": "Description for petexpert.mainpage."
     }
   ] }

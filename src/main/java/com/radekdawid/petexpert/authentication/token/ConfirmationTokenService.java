@@ -50,12 +50,6 @@ public class ConfirmationTokenService {
             throw new IllegalStateException("email already confirmed");
         }
 
-        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
-
-        if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
-        }
-
         setConfirmedAt(token);
         userService.enableAppUser(confirmationToken.getUser().getEmail());
     }
