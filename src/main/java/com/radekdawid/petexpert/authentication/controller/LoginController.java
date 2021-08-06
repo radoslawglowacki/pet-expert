@@ -1,6 +1,7 @@
 package com.radekdawid.petexpert.authentication.controller;
 
 import com.radekdawid.petexpert.authentication.payload.request.LoginRequest;
+import com.radekdawid.petexpert.authentication.payload.request.TokenRefreshRequest;
 import com.radekdawid.petexpert.authentication.service.LoginService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +26,10 @@ public class LoginController {
         return loginService.loginUser(loginRequest);
     }
 
-    @GetMapping(path="/logout")
-    public void logoutPage(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
+
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest request){
+        return loginService.refreshToken(request);
     }
 
 }

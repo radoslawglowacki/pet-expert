@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.authentication.token;
+package com.radekdawid.petexpert.authentication.tokens.confirmationToken;
 
 
 import com.radekdawid.petexpert.users.user.model.User;

@@ -1,7 +1,12 @@
 package com.radekdawid.petexpert.authentication.service;
 
 import com.radekdawid.petexpert.authentication.payload.request.LoginRequest;
+import com.radekdawid.petexpert.authentication.payload.request.TokenRefreshRequest;
 import com.radekdawid.petexpert.authentication.payload.response.JwtResponse;
+import com.radekdawid.petexpert.authentication.payload.response.TokenRefreshResponse;
+import com.radekdawid.petexpert.authentication.tokens.refreshToken.RefreshToken;
+import com.radekdawid.petexpert.authentication.tokens.refreshToken.RefreshTokenService;
+import com.radekdawid.petexpert.exceptions.TokenRefreshException;
 import com.radekdawid.petexpert.security.jwt.JwtUtils;
 import com.radekdawid.petexpert.users.user.model.User;
 import lombok.AllArgsConstructor;
@@ -22,22 +27,46 @@ public class LoginService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final RefreshTokenService refreshTokenService;
 
     public ResponseEntity<?> loginUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        User user = (User) authentication.getPrincipal();
 
-        User userDetails = (User) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
+        if(refreshTokenService.findByUser(user).isPresent()){
+            refreshTokenService.deleteRefreshTokenByUserId(user);
+        }
+
+        String jwt = jwtUtils.generateJwtToken(user);
+
+        List<String> roles = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getEmail(),
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
+
+        return ResponseEntity.ok(new JwtResponse(
+                jwt,
+                refreshToken.getToken(),
+                user.getId(),
+                user.getEmail(),
                 roles));
+    }
+
+
+    public ResponseEntity<?> refreshToken(TokenRefreshRequest request) {
+        String refreshToken = request.getRefreshToken();
+
+        return refreshTokenService.findByToken(refreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtUtils.generateTokenFromUsername(user.getEmail());
+                    return ResponseEntity.ok(new TokenRefreshResponse(token, refreshToken));
+                })
+                .orElseThrow(() -> new TokenRefreshException(refreshToken, "Refresh token is not in database!"));
     }
 }

@@ -24,12 +24,14 @@ public class JwtUtils {
     @Value("${petexpert.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) {
+    public String generateJwtToken(User user) {
+        return generateTokenFromUsername(user.getEmail());
+    }
 
-        User userPrincipal = (User) authentication.getPrincipal();
 
+    public String generateTokenFromUsername(String mail){
         return Jwts.builder()
-                .setSubject((userPrincipal.getEmail()))
+                .setSubject(mail)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

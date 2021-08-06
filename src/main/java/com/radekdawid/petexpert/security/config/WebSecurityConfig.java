@@ -14,15 +14,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Configuration
 @AllArgsConstructor
@@ -33,6 +26,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthEntryPointJwt unauthorizedHandler;
+
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            // rest of endpoints
+            "/api/v*/registration/**",
+            "/api/v*/auth/**",
+            "/",
+            "/api/auth/signin",
+            "/api/v1/offers"
+    };
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -52,10 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/v*/registration/**").permitAll()
-                .antMatchers("/api/v*/auth/**").permitAll()
-                .antMatchers("/swagger-ui/index.html").permitAll()
-                .antMatchers("/").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
+                .antMatchers("/**").authenticated()
 //                .anyRequest().authenticated()
                 .and()
                 .formLogin()

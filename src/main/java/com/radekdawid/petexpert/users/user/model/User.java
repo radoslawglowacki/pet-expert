@@ -1,5 +1,6 @@
 package com.radekdawid.petexpert.users.user.model;
 
+import com.radekdawid.petexpert.authentication.tokens.refreshToken.RefreshToken;
 import com.radekdawid.petexpert.users.address.model.Address;
 import com.radekdawid.petexpert.users.company.model.Company;
 import com.radekdawid.petexpert.users.details.model.Details;
@@ -67,6 +68,10 @@ public class User implements UserDetails {
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
     private Address address;
+
+    @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn
+    private RefreshToken refreshToken;
 
     private boolean locked = false;
     private boolean enabled = false;
