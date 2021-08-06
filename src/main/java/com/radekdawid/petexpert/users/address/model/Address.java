@@ -1,10 +1,16 @@
 package com.radekdawid.petexpert.users.address.model;
 
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.Locale;
 
 @Data
 @Entity
@@ -14,24 +20,39 @@ import javax.validation.constraints.NotNull;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull(message = "City cannot be null")
+
+    @NotNull
+    @NotBlank(message = "City cannot be null")
+    @Length(min = 2, max = 30)
     private String city;
-    @NotNull(message = "Street cannot be null")
+
+    @NotNull
+    @NotBlank(message = "Street cannot be null")
+    @Length(min = 2, max = 30)
     private String street;
-    @NotNull(message = "Number cannot be null")
+
+    @NotNull
+    @NotBlank(message = "Number cannot be null")
+    @Pattern(regexp = "^[0-9]")
     private String number;
+
+    @Pattern(regexp = "^[0-9]*$")
     private String local;
-    @NotNull(message = "Zip code cannot be null")
+
+    @Pattern(regexp = "^[0-9]{2}-[0-9]{3}$")
+    @NotNull
+    @NotBlank(message = "Zip code cannot be null")
     private String zip;
 
 
     public Address(String city, String street, String number, String local, String zip) {
-        this.city = city;
-        this.street = street;
+        this.city = StringUtils.capitalize(city.toLowerCase());
+        this.street = StringUtils.capitalize(street.toLowerCase());
         this.number = number;
         this.local = local;
         this.zip = zip;
+
     }
 }
