@@ -23,11 +23,9 @@ public class Details {
     private Long id;
 
     @NotNull
-    @Length(min = 10, max = 10)
     private Long nip;
 
     @NotNull
-    @Length(min = 9, max = 12)
     private Long phone;
 
     @Length(min = 3)
