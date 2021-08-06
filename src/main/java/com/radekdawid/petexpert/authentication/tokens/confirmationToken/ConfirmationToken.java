@@ -28,17 +28,14 @@ public class ConfirmationToken {
     private String token;
     @Column(nullable = false)
     private LocalDateTime createdAt;
-    @Column(nullable = false)
-    private LocalDateTime expiresAt;
     private LocalDateTime confirmedAt;
     @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, User user) {
+    public ConfirmationToken(String token, LocalDateTime createdAt, User user) {
         this.token = token;
         this.createdAt = createdAt;
-        this.expiresAt = expiresAt;
         this.user = user;
     }
 }

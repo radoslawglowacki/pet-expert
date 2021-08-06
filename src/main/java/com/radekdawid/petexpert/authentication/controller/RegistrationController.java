@@ -2,8 +2,7 @@ package com.radekdawid.petexpert.authentication.controller;
 
 import com.radekdawid.petexpert.authentication.payload.request.ProviderRegistrationRequest;
 import com.radekdawid.petexpert.authentication.payload.request.UserRegistrationRequest;
-import com.radekdawid.petexpert.authentication.service.ProviderRegistrationService;
-import com.radekdawid.petexpert.authentication.service.UserRegistrationService;
+import com.radekdawid.petexpert.authentication.service.RegistrationService;
 import com.radekdawid.petexpert.authentication.tokens.confirmationToken.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -17,24 +16,23 @@ import javax.servlet.http.HttpServletResponse;
 @AllArgsConstructor
 public class RegistrationController {
 
-    private final UserRegistrationService userRegistrationService;
-    private final ProviderRegistrationService providerRegistrationService;
+    private final RegistrationService registrationService;
     private final ConfirmationTokenService confirmationTokenService;
     private final Environment env;
 
     @PostMapping("/user")
-    public void register(@RequestBody UserRegistrationRequest request){
-        userRegistrationService.register(request);
+    public void register(@RequestBody UserRegistrationRequest request) {
+        registrationService.registerUser(request);
     }
 
     @PostMapping("/provider")
-    public void register(@RequestBody ProviderRegistrationRequest request){
-        providerRegistrationService.register(request);
+    public void register(@RequestBody ProviderRegistrationRequest request) {
+        registrationService.registerProvider(request);
     }
 
     @SneakyThrows
     @GetMapping(path = "/confirm")
-    public void confirm(@RequestParam("token") String token, HttpServletResponse response){
+    public void confirm(@RequestParam("token") String token, HttpServletResponse response) {
         confirmationTokenService.confirmToken(token);
         response.sendRedirect(env.getProperty("PET_EXPERT_MAIN_PAGE"));
     }
