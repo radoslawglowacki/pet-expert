@@ -1,9 +1,8 @@
-package com.radekdawid.petexpert.authentication.tokens.refreshToken;
+package com.radekdawid.petexpert.security.jwt.refreshToken;
 
 
 import com.radekdawid.petexpert.exceptions.TokenRefreshException;
 import com.radekdawid.petexpert.users.user.model.User;
-import com.radekdawid.petexpert.users.user.repository.UserRepository;
 import com.radekdawid.petexpert.users.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

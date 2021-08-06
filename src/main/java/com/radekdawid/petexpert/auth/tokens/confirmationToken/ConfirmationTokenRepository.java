@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.authentication.tokens.confirmationToken;
+package com.radekdawid.petexpert.auth.tokens.confirmationToken;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

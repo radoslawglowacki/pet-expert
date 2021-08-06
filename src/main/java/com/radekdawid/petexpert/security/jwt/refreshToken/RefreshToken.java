@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.authentication.tokens.refreshToken;
+package com.radekdawid.petexpert.security.jwt.refreshToken;
 
 import com.radekdawid.petexpert.users.user.model.User;
 import lombok.Getter;

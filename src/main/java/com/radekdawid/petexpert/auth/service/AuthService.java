@@ -1,13 +1,13 @@
-package com.radekdawid.petexpert.authentication.service;
+package com.radekdawid.petexpert.auth.service;
 
-import com.radekdawid.petexpert.authentication.payload.request.LoginRequest;
-import com.radekdawid.petexpert.authentication.payload.request.TokenRefreshRequest;
-import com.radekdawid.petexpert.authentication.payload.response.JwtResponse;
-import com.radekdawid.petexpert.authentication.payload.response.TokenRefreshResponse;
-import com.radekdawid.petexpert.authentication.tokens.refreshToken.RefreshToken;
-import com.radekdawid.petexpert.authentication.tokens.refreshToken.RefreshTokenService;
+import com.radekdawid.petexpert.auth.payload.request.LoginRequest;
+import com.radekdawid.petexpert.security.jwt.payload.request.TokenRefreshRequest;
+import com.radekdawid.petexpert.security.jwt.payload.response.JwtResponse;
+import com.radekdawid.petexpert.security.jwt.payload.response.TokenRefreshResponse;
+import com.radekdawid.petexpert.security.jwt.refreshToken.RefreshToken;
+import com.radekdawid.petexpert.security.jwt.refreshToken.RefreshTokenService;
 import com.radekdawid.petexpert.exceptions.TokenRefreshException;
-import com.radekdawid.petexpert.security.jwt.JwtUtils;
+import com.radekdawid.petexpert.security.jwt.utils.JwtUtils;
 import com.radekdawid.petexpert.users.user.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class LoginService {
+public class AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;

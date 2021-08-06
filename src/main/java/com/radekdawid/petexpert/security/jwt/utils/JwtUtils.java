@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.security.jwt;
+package com.radekdawid.petexpert.security.jwt.utils;
 
 
 import com.radekdawid.petexpert.users.user.model.User;
@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.security.core.Authentication;
 
 import io.jsonwebtoken.*;
 

@@ -1,10 +1,9 @@
 package com.radekdawid.petexpert.users.user.model;
 
-import com.radekdawid.petexpert.authentication.tokens.refreshToken.RefreshToken;
+import com.radekdawid.petexpert.security.jwt.refreshToken.RefreshToken;
 import com.radekdawid.petexpert.users.address.model.Address;
 import com.radekdawid.petexpert.users.company.model.Company;
 import com.radekdawid.petexpert.users.details.model.Details;
-import com.radekdawid.petexpert.users.offer.model.Offer;
 import com.radekdawid.petexpert.users.role.model.Role;
 import com.radekdawid.petexpert.users.services.model.Services;
 import lombok.*;

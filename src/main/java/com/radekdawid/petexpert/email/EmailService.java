@@ -51,8 +51,6 @@ public class EmailService implements EmailSender{
         String template = new BufferedReader(new InputStreamReader(inputStream))
                 .lines().collect(Collectors.joining());
 
-
-//        TODO: Change link to proper one in future
         String confirmationLink = "http://localhost:8081/api/v1/registration/confirm?token=" + token;
         String subject = "Pet Expert - confirm your email";
         String message = String.format(template, firstName, confirmationLink);

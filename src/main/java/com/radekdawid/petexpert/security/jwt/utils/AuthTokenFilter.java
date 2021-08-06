@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.security.jwt;
+package com.radekdawid.petexpert.security.jwt.utils;
 
 import com.radekdawid.petexpert.users.user.service.UserService;
 import lombok.AllArgsConstructor;

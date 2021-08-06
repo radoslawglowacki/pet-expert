@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.authentication.payload.response;
+package com.radekdawid.petexpert.security.jwt.payload.response;
 
 import lombok.Getter;
 import lombok.Setter;

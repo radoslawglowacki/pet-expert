@@ -1,4 +1,4 @@
-package com.radekdawid.petexpert.security.jwt;
+package com.radekdawid.petexpert.security.jwt.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

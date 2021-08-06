@@ -1,7 +1,7 @@
 package com.radekdawid.petexpert.security.config;
 
-import com.radekdawid.petexpert.security.jwt.AuthEntryPointJwt;
-import com.radekdawid.petexpert.security.jwt.AuthTokenFilter;
+import com.radekdawid.petexpert.security.jwt.utils.AuthEntryPointJwt;
+import com.radekdawid.petexpert.security.jwt.utils.AuthTokenFilter;
 import com.radekdawid.petexpert.users.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
