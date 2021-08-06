@@ -6,8 +6,11 @@ import com.radekdawid.petexpert.users.offer.model.Offer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,9 +25,11 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Name can not be null")
+    @NotNull
+    @NotBlank(message = "Name can not be null")
     private String name;
 
+    @Length(min = 2, max = 3000)
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -34,7 +39,7 @@ public class Company {
     private Set<Offer> offers = new HashSet<>();
 
     public Company(String name) {
-        this.name = name;
+        this.name = StringUtils.capitalize(name.toLowerCase());
     }
 
     public void addAddress(Address address){

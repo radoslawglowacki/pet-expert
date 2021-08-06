@@ -14,10 +14,15 @@ public class Socials {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String facebook;
+
     private String instagram;
+
     private String twitter;
+
     private String website;
+
     @OneToOne(mappedBy = "socials")
     private Details user;
 }

@@ -6,8 +6,10 @@ import com.radekdawid.petexpert.users.socials.model.Socials;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -19,11 +21,18 @@ public class Details {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
+    @Length(min = 10, max = 10)
     private Long nip;
+
     @NotNull
+    @Length(min = 9, max = 12)
     private Long phone;
+
+    @Length(min = 3)
     private String description;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Socials socials;

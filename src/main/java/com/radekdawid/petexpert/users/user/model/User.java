@@ -7,12 +7,14 @@ import com.radekdawid.petexpert.users.details.model.Details;
 import com.radekdawid.petexpert.users.role.model.Role;
 import com.radekdawid.petexpert.users.services.model.Services;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
@@ -40,12 +42,17 @@ public class User implements UserDetails {
     )
     private Long id;
 
-    @NotNull(message = "Name cannot be null")
+    @NotNull
+    @NotBlank(message = "Name cannot be null")
+    @Length(min = 2)
     private String firstName;
 
-    @NotNull(message = "Last name cannot be null")
+    @NotNull
+    @NotBlank(message = "Last name cannot be null")
+    @Length(min = 2)
     private String lastName;
 
+    @NotBlank
     @Email(message = "Email is not valid")
     private String email;
 
@@ -84,7 +91,6 @@ public class User implements UserDetails {
     }
 
 
-
     public void addRole(Role role) {
         roles.add(role);
     }
@@ -94,8 +100,6 @@ public class User implements UserDetails {
     }
 
     public void addService(Services service){services.add(service);}
-
-
 
 
     @Override
