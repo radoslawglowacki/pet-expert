@@ -1,60 +1,92 @@
 package com.radekdawid.petexpert.security.jwt.utils;
 
 
+import com.auth0.jwt.JWT;
+import com.radekdawid.petexpert.users.role.model.Role;
 import com.radekdawid.petexpert.users.user.model.User;
+import io.jsonwebtoken.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.*;
-
+import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
+import javax.xml.bind.DatatypeConverter;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @Component
+@Slf4j
+@NoArgsConstructor
 public class JwtUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
+    private final String jwtSecret = "secret";
+    private final int jwtExpirationMs = 900000;
 
-    @Value("${petexpert.app.jwtSecret}")
-    private String jwtSecret;
-
-    @Value("${petexpert.app.jwtExpirationMs}")
-    private int jwtExpirationMs;
 
     public String generateJwtToken(User user) {
-        return generateTokenFromUsername(user.getEmail());
-    }
-
-
-    public String generateTokenFromUsername(String mail){
         return Jwts.builder()
-                .setSubject(mail)
+                .setSubject(user.getEmail())
+                .setHeaderParam("id", user.getId())
+                .setHeaderParam("roles", user.getRoles())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
-    public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+
+    public Long getUserIdFromJwtToken(String token) {
+        Jws<Claims> claimsJws = Jwts.parser()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
+                .parseClaimsJws(token);
+
+        return ((Number) claimsJws.getHeader().get("id")).longValue();
     }
+
+    public String getEmailFromJwtToken(String token){
+        Jws<Claims> claimsJws = Jwts.parser()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
+                .parseClaimsJws(token);
+        return claimsJws.getBody().getSubject();
+    }
+
+    public List<Role> getUserRolesFromJwtToken(String token){
+        Jws<Claims> claimsJws = Jwts.parser()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
+                .parseClaimsJws(token);
+
+//        TODO
+
+        return null;
+    }
+
 
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
-            logger.error("Invalid JWT signature: {}", e.getMessage());
+            log.error("Invalid JWT signature: {}", e.getMessage());
         } catch (MalformedJwtException e) {
-            logger.error("Invalid JWT token: {}", e.getMessage());
+            log.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
-            logger.error("JWT token is expired: {}", e.getMessage());
+            log.error("JWT token is expired: {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
-            logger.error("JWT token is unsupported: {}", e.getMessage());
+            log.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
-            logger.error("JWT claims string is empty: {}", e.getMessage());
+            log.error("JWT claims string is empty: {}", e.getMessage());
         }
 
         return false;

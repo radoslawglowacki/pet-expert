@@ -6,6 +6,7 @@ import com.radekdawid.petexpert.users.company.model.Company;
 import com.radekdawid.petexpert.users.details.model.Details;
 import com.radekdawid.petexpert.users.role.model.Role;
 import com.radekdawid.petexpert.users.services.model.Services;
+import com.radekdawid.petexpert.users.socials.model.Socials;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
@@ -74,6 +75,10 @@ public class User implements UserDetails {
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn
     private Address address;
+
+    @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn
+    private Socials socials;
 
     @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn

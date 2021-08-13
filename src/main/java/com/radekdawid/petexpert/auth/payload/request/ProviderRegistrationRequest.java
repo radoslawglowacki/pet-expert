@@ -1,6 +1,7 @@
 package com.radekdawid.petexpert.auth.payload.request;
 
 
+import com.radekdawid.petexpert.users.address.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,5 +39,10 @@ public class ProviderRegistrationRequest {
     private final List<Long> services;
 
     private final String adminMessage;
+
+
+//    public Address getAddres(){
+//        return new Address()
+//    }
 
 }

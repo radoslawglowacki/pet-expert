@@ -5,6 +5,7 @@ import com.radekdawid.petexpert.email.EmailService;
 import com.radekdawid.petexpert.auth.payload.request.ProviderRegistrationRequest;
 import com.radekdawid.petexpert.auth.tokens.confirmationToken.ConfirmationTokenService;
 import com.radekdawid.petexpert.users.services.service.ServicesService;
+import com.radekdawid.petexpert.users.socials.model.Socials;
 import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user.repository.UserRepository;
 import com.radekdawid.petexpert.users.address.model.Address;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,14 +44,29 @@ public class RegistrationService {
     public void registerProvider(@NotNull ProviderRegistrationRequest request) {
         User newUser = createNewProvider(request);
         String token = confirmationTokenService.createToken(newUser);
-
         emailService.buildRegistrationEmail(request.getFirstName(), request.getEmail(), token);
         userRepository.save(newUser);
+    }
+
+    @Transactional
+    public void registerDefaultProvider(ProviderRegistrationRequest request, List<Company> companies, Socials socials) {
+        User newProvider = createNewProvider(request);
+        newProvider.setEnabled(true);
+        newProvider.setSocials(socials);
+
+        userRepository.save(newProvider);
+
+        if(companies!= null) {
+            for (Company company : companies) {
+                newProvider.addCompany(company);
+            }
+        }
     }
 
     @NotNull
     private User createNewUser(UserRegistrationRequest request) {
         Long userRoleNumber = 1L;
+
         registrationValidator.userExistingChecker(request.getEmail());
         registrationValidator.passwordChecker(request.getPassword());
 

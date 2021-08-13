@@ -1,9 +1,9 @@
 package com.radekdawid.petexpert.users.user.service;
 
 
-import com.radekdawid.petexpert.security.PasswordEncoder;
 import com.radekdawid.petexpert.users.company.model.Company;
-import com.radekdawid.petexpert.users.role.service.RoleService;
+import com.radekdawid.petexpert.users.user.dto.UserPageDto;
+import com.radekdawid.petexpert.users.user.mapper.UserPageMapper;
 import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -22,8 +22,7 @@ public class UserService implements UserDetailsService {
 
     private final static String USER_NOT_FOUND_MSG = "User with email: %s not found";
     private final UserRepository userRepository;
-    private final RoleService roleService;
-    private final PasswordEncoder passwordEncoder;
+    private final UserPageMapper userPageMapper;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -43,5 +42,9 @@ public class UserService implements UserDetailsService {
 
     public void enableAppUser(String email) {
         userRepository.enableUser(email);
+    }
+
+    public UserPageDto getUserDetailsPage(String token) {
+        return userPageMapper.map(token);
     }
 }

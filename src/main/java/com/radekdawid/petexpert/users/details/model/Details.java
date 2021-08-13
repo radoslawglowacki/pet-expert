@@ -28,19 +28,24 @@ public class Details {
     @NotNull
     private Long phone;
 
-    @Length(min = 3)
-    private String description;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn
-    private Socials socials;
+//    @Length(min = 3)
+    private String description = "";
 
     @OneToOne(mappedBy = "details", cascade = CascadeType.ALL)
     private User user;
 
-    public Details(@NotNull @Length(min = 10, max = 10) @NotNull Long nip, @Length(min = 9) Long phone, User user) {
+
+    public Details(@NotNull Long nip, @NotNull Long phone, User user) {
         this.nip = nip;
         this.phone = phone;
         this.user = user;
+    }
+
+    public Details(@NotNull @Length(min = 10, max = 10) @NotNull Long nip, @Length(min = 9) Long phone,
+                   User user, String description) {
+        this.nip = nip;
+        this.phone = phone;
+        this.user = user;
+        this.description = description;
     }
 }

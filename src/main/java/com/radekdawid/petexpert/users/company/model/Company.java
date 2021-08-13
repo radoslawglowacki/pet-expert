@@ -38,8 +38,16 @@ public class Company {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Offer> offers = new HashSet<>();
 
+
+
+
     public Company(String name) {
         this.name = StringUtils.capitalize(name.toLowerCase());
+    }
+
+    public Company(@NotNull @NotBlank(message = "Name can not be null") String name, @Length(min = 2, max = 3000) String description) {
+        this.name = name;
+        this.description = description;
     }
 
     public void addAddress(Address address){

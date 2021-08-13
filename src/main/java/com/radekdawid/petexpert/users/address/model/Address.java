@@ -16,7 +16,6 @@ import java.util.Locale;
 @Entity
 @Table(name = "address")
 @NoArgsConstructor
-
 public class Address {
 
     @Id

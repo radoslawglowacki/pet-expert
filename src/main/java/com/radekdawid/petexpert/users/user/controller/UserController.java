@@ -1,26 +1,30 @@
 package com.radekdawid.petexpert.users.user.controller;
 
-import com.radekdawid.petexpert.users.company.model.Company;
+import com.radekdawid.petexpert.users.offer.dto.OfferDto;
+import com.radekdawid.petexpert.users.user.dto.UserPageDto;
+import com.radekdawid.petexpert.users.user.reguests.UserPageRequest;
 import com.radekdawid.petexpert.users.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1//user")
+@AllArgsConstructor
+@RequestMapping("api/v1/user")
 public class UserController {
-
 
     private final UserService userService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    @GetMapping("/page")
+//    @PreAuthorize("hasRole({'PROVIDER', 'USER'})")
+//    @PreAuthorize("hasRole('PROVIDER')" + " || hasRole('USER')")
+//    @PreAuthorize("hasRole('PROVIDER')")
+    public ResponseEntity<UserPageDto> getUserDetailsPage(@Valid @RequestBody UserPageRequest request) {
+        return new ResponseEntity<>(userService.getUserDetailsPage(request.getToken()), HttpStatus.OK);
     }
-
 
 }
