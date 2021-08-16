@@ -4,6 +4,7 @@ import com.radekdawid.petexpert.users.address.model.Address;
 import com.radekdawid.petexpert.users.address.repository.AddressRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -22,5 +23,10 @@ public class AddressService {
         }
 
         return (Address) address.get();
+    }
+
+    @Transactional
+    public void update(Address address) {
+        addressRepository.save(address);
     }
 }

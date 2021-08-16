@@ -27,7 +27,7 @@ public class OfferMapper {
     public Offer map(OfferDto offerDto) {
         Services service = servicesService.getService(offerDto.getServiceId());
 
-        Company company = companyService.getCompanyById(offerDto.getProviderId());
+        Company company = companyService.getCompany(offerDto.getProviderId());
 
         return new Offer(offerDto.getName(), offerDto.getDescription(), offerDto.getPrice(),
                 offerDto.isDrivingToClient(), offerDto.getDrivingRadius(), offerDto.getCity(), service, company);

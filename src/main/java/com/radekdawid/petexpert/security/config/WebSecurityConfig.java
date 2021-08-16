@@ -1,11 +1,13 @@
 package com.radekdawid.petexpert.security.config;
 
+import com.radekdawid.petexpert.auth.service.DefaultRegistrationRoles;
 import com.radekdawid.petexpert.security.jwt.utils.AuthEntryPointJwt;
 import com.radekdawid.petexpert.security.jwt.utils.AuthTokenFilter;
 import com.radekdawid.petexpert.users.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,11 +23,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @AllArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthEntryPointJwt unauthorizedHandler;
+    private final AuthTokenFilter authTokenFilter;
 
     private static final String[] AUTH_WHITELIST = {
             // -- Swagger UI v2
@@ -47,10 +51,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/v1/offers"
     };
 
-    @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
-    }
+    private static final String[] AUTH_PROVIDER = {
+            "api/v1/offers/new"
+    };
+
+    private static final String[] AUTH_USER = {
+
+    };
+
+    private static final String[] AUTH_ANY = {
+
+    };
 
     @Bean
     @Override
@@ -65,15 +76,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
+
                 .antMatchers(AUTH_WHITELIST).permitAll()
-//                .antMatchers("/**").authenticated()
-//                .anyRequest().authenticated()
+                .antMatchers(AUTH_PROVIDER).hasRole(DefaultRegistrationRoles.PROVIDER.name())
+                .antMatchers(AUTH_USER).hasRole(DefaultRegistrationRoles.USER.name())
+                .antMatchers(AUTH_ANY).hasAnyRole(DefaultRegistrationRoles.USER.name(),
+                DefaultRegistrationRoles.PROVIDER.name())
+
+                .antMatchers("/**").authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/api/auth/signin")
                 .permitAll()
         ;
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

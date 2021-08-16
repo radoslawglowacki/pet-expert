@@ -38,7 +38,7 @@ public class OfferService {
 
     @Transactional
     public OfferDto addOffer(OfferDto offerDto) {
-        Company company = companyService.getCompanyById(offerDto.getProviderId());
+        Company company = companyService.getCompany(offerDto.getProviderId());
         company.addOffer(offerMapper.map(offerDto));
         return offerDto;
     }
