@@ -25,7 +25,7 @@ public class OfferController {
 
 
     @PostMapping("/new")
-    @PreAuthorize("hasRole('PROVIDER')")
+//    @PreAuthorize("hasRole('PROVIDER')")
     public ResponseEntity<OfferDto> addOffer(@RequestBody OfferDto offerDto) {
         return new ResponseEntity<>(offerService.addOffer(offerDto), HttpStatus.OK);
     }

@@ -3,11 +3,13 @@ package com.radekdawid.petexpert.users.offer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class OfferDto {
 
     private Long id;
@@ -22,4 +24,15 @@ public class OfferDto {
     private String providerName;
 
 
+    public OfferDto(String name, String description, Long price, boolean drivingToClient, Long drivingRadius, String city, Long serviceId, Long providerId, String providerName) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.drivingToClient = drivingToClient;
+        this.drivingRadius = drivingRadius;
+        this.city = city;
+        this.serviceId = serviceId;
+        this.providerId = providerId;
+        this.providerName = providerName;
+    }
 }

@@ -1,29 +1,16 @@
 package com.radekdawid.petexpert.security.jwt.utils;
 
 
-import com.auth0.jwt.JWT;
 import com.radekdawid.petexpert.users.role.model.Role;
 import com.radekdawid.petexpert.users.user.model.User;
 import io.jsonwebtoken.*;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.security.RolesAllowed;
 import javax.xml.bind.DatatypeConverter;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Component
 @Slf4j
@@ -55,14 +42,14 @@ public class JwtUtils {
         return ((Number) claimsJws.getHeader().get("id")).longValue();
     }
 
-    public String getEmailFromJwtToken(String token){
+    public String getEmailFromJwtToken(String token) {
         Jws<Claims> claimsJws = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
                 .parseClaimsJws(token);
         return claimsJws.getBody().getSubject();
     }
 
-    public List<Role> getUserRolesFromJwtToken(String token){
+    public List<Role> getUserRolesFromJwtToken(String token) {
         Jws<Claims> claimsJws = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
                 .parseClaimsJws(token);

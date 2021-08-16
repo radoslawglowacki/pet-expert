@@ -70,7 +70,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/api/auth/signin").permitAll();
+                .loginProcessingUrl("/api/auth/signin")
+                .permitAll()
+        ;
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
