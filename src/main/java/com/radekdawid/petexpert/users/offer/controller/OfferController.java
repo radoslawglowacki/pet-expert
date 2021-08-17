@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("api/v1/offers")
 @AllArgsConstructor
@@ -26,8 +28,8 @@ public class OfferController {
 
     @PostMapping("/new")
 //    @PreAuthorize("hasRole('PROVIDER')")
-    public ResponseEntity<OfferDto> addOffer(@RequestBody OfferDto offerDto) {
-        return new ResponseEntity<>(offerService.addOffer(offerDto), HttpStatus.OK);
+    public ResponseEntity<OfferDto> addOffer(@RequestBody OfferDto offerDto, HttpServletRequest request) {
+        return new ResponseEntity<>(offerService.addOffer(offerDto, request), HttpStatus.OK);
     }
 
 }
