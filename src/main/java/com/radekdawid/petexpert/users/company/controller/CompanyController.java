@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,15 +20,15 @@ public class CompanyController {
 
     private final CompanyService companyService;
 
-//    TODO change to token JWT and validate it
-    @GetMapping("/list/{id}")
-    public List<CompanyListDto> getUserCompaniesList(@PathVariable Long id) {
-        return companyService.getUserCompaniesList(id);
+
+    @GetMapping("/list")
+    public List<CompanyListDto> getUserCompaniesList(HttpServletRequest request) {
+        return companyService.getUserCompaniesList(request);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody CompanyUpdateDto companyUpdateDto){
-        companyService.updateCompany(companyUpdateDto);
+    public ResponseEntity<?> update(@RequestBody CompanyUpdateDto companyUpdateDto, HttpServletRequest request){
+        companyService.updateCompany(companyUpdateDto, request);
         return ResponseEntity.ok("updated");
     }
 }

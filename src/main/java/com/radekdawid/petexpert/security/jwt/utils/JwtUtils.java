@@ -7,7 +7,9 @@ import io.jsonwebtoken.*;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import java.util.Date;
 import java.util.List;
@@ -55,6 +57,16 @@ public class JwtUtils {
                 .parseClaimsJws(token);
 
 //        TODO
+
+        return null;
+    }
+
+    public String parseJwt(HttpServletRequest request) {
+        String headerAuth = request.getHeader("Authorization");
+
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7, headerAuth.length());
+        }
 
         return null;
     }

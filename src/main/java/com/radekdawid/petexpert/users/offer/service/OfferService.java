@@ -27,7 +27,6 @@ public class OfferService {
     private final OfferMapper offerMapper;
     private final CompanyService companyService;
     private final JwtUtils jwtUtils;
-    private final AuthTokenFilter authTokenFilter;
     private final UserService userService;
 
     public Page<OfferDto> getOffers(OfferPage offerPage) {
@@ -46,7 +45,7 @@ public class OfferService {
 
     @Transactional
     public OfferDto addOffer(OfferDto offerDto, HttpServletRequest request) {
-        String token = authTokenFilter.parseJwt(request);
+        String token = jwtUtils.parseJwt(request);
         if (jwtUtils.validateJwtToken(token)) {
             Long userIdFromJwtToken = jwtUtils.getUserIdFromJwtToken(token);
             User userById = userService.getUserById(userIdFromJwtToken);

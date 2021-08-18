@@ -1,6 +1,5 @@
 package com.radekdawid.petexpert.users.address.service;
 
-import com.radekdawid.petexpert.security.jwt.utils.AuthTokenFilter;
 import com.radekdawid.petexpert.security.jwt.utils.JwtUtils;
 import com.radekdawid.petexpert.users.address.model.Address;
 import com.radekdawid.petexpert.users.address.repository.AddressRepository;
@@ -19,7 +18,6 @@ public class AddressService {
 
     private final AddressRepository addressRepository;
     private final JwtUtils jwtUtils;
-    private final AuthTokenFilter authTokenFilter;
     private final UserService userService;
 
     public Address getAddress(Long id) {
@@ -30,18 +28,18 @@ public class AddressService {
             throw new IllegalStateException("That address does not exists");
         }
 
-        return (Address) address.get();
+        return address.get();
     }
 
     @Transactional
     public void update(Address address, HttpServletRequest request) {
 
-        String token = authTokenFilter.parseJwt(request);
-        if(jwtUtils.validateJwtToken(token)){
+        String token = jwtUtils.parseJwt(request);
+        if (jwtUtils.validateJwtToken(token)) {
             Long userIdFromJwtToken = jwtUtils.getUserIdFromJwtToken(token);
             User userById = userService.getUserById(userIdFromJwtToken);
-            if(userById.getAddress().getId().equals(address.getId()) || userById.getCompanies().stream().anyMatch(
-                    company -> company.getAddresses().stream().anyMatch(address1 -> address1.getId().equals(address.getId()))) ) {
+            if (userById.getAddress().getId().equals(address.getId()) || userById.getCompanies().stream().anyMatch(
+                    company -> company.getAddresses().stream().anyMatch(address1 -> address1.getId().equals(address.getId())))) {
                 addressRepository.save(address);
                 return;
             }

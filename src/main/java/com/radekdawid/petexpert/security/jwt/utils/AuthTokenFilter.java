@@ -2,16 +2,13 @@ package com.radekdawid.petexpert.security.jwt.utils;
 
 import com.radekdawid.petexpert.users.user.service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,10 +19,9 @@ import java.io.IOException;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class AuthTokenFilter extends OncePerRequestFilter {
 
-
-    private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
     private final JwtUtils jwtUtils;
     private final UserService userService;
 
@@ -33,9 +29,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         try {
-            String jwt = parseJwt(request);
+            String jwt = jwtUtils.parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                Long id = Long.valueOf(jwtUtils.getUserIdFromJwtToken(jwt));
+                Long id = jwtUtils.getUserIdFromJwtToken(jwt);
 
                 UserDetails userDetails = userService.getUserById(id);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -45,20 +41,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            logger.error("Cannot set user authentication: {}", e);
+            log.error("Cannot set user authentication: {}", e);
         }
 
         filterChain.doFilter(request, response);
     }
-
-    public String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7, headerAuth.length());
-        }
-
-        return null;
-    }
-
 }
