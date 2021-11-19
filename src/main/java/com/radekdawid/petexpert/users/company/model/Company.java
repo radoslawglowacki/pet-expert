@@ -33,13 +33,11 @@ public class Company {
     private String description;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_id")
     private Set<Address> addresses = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Offer> offers = new HashSet<>();
-
-
-
 
     public Company(String name) {
         this.name = StringUtils.capitalize(name.toLowerCase());
@@ -50,9 +48,11 @@ public class Company {
         this.description = description;
     }
 
-    public void addAddress(Address address){
+    public void addAddress(Address address) {
         addresses.add(address);
     }
 
-    public void addOffer(Offer offer){offers.add(offer);}
+    public void addOffer(Offer offer) {
+        offers.add(offer);
+    }
 }

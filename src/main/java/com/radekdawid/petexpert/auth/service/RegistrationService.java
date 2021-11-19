@@ -13,7 +13,6 @@ import com.radekdawid.petexpert.users.user.model.User;
 import com.radekdawid.petexpert.users.user.repository.UserRepository;
 import com.radekdawid.petexpert.validation.registration.RegistrationValidator;
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +31,7 @@ public class RegistrationService {
     private final EmailService emailService;
     private final ServicesService servicesService;
 
-    public void registerUser(@NotNull UserRegistrationRequest request) {
+    public void registerUser(UserRegistrationRequest request) {
         User newUser = createNewUser(request);
         String token = confirmationTokenService.createToken(newUser);
 
@@ -40,7 +39,7 @@ public class RegistrationService {
         userRepository.save(newUser);
     }
 
-    public void registerProvider(@NotNull ProviderRegistrationRequest request) {
+    public void registerProvider(ProviderRegistrationRequest request) {
         User newUser = createNewProvider(request);
         String token = confirmationTokenService.createToken(newUser);
         emailService.buildRegistrationEmail(request.getFirstName(), request.getEmail(), token);
@@ -62,7 +61,6 @@ public class RegistrationService {
         }
     }
 
-    @NotNull
     private User createNewUser(UserRegistrationRequest request) {
         registrationValidator.userExistingChecker(request.getEmail());
         registrationValidator.passwordChecker(request.getPassword());
@@ -75,8 +73,7 @@ public class RegistrationService {
         return newUser;
     }
 
-    @NotNull
-    private User createNewProvider(@NotNull ProviderRegistrationRequest request) {
+    private User createNewProvider(ProviderRegistrationRequest request) {
         User newProvider = createNewUser(new UserRegistrationRequest(request.getFirstName(),
                 request.getLastName(), request.getPassword(), request.getEmail()));
         newProvider.addRole(roleService.getRole(DefaultRegistrationRoles.PROVIDER.roleId));
@@ -88,7 +85,7 @@ public class RegistrationService {
         return newProvider;
     }
 
-    private Company createUserCompany(@NotNull ProviderRegistrationRequest request) {
+    private Company createUserCompany(ProviderRegistrationRequest request) {
         Company company = new Company(request.getCompanyName());
         company.addAddress(request.getCompanyAddress());
         return company;

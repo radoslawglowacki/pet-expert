@@ -2,7 +2,6 @@ package com.radekdawid.petexpert.email;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.jetbrains.annotations.Contract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -44,7 +43,7 @@ public class EmailService implements EmailSender{
     }
 
     @SneakyThrows
-    @Contract(pure = true)
+    //@Contract(pure = true)
     public void buildRegistrationEmail(String firstName, String email, String token) {
         ClassPathResource resource = new ClassPathResource("templates/registrationEmail.html");
         InputStream inputStream = resource.getInputStream();

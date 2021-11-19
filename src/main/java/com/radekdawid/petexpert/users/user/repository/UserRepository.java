@@ -1,7 +1,6 @@
 package com.radekdawid.petexpert.users.user.repository;
 
 import com.radekdawid.petexpert.users.user.model.User;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,12 +15,11 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>, CrudRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.email = :email")
-    public User getUserByUsername(@Param("email") String email);
+    User getUserByUsername(@Param("email") String email);
 
     Optional<User> findByEmail(String email);
 
-    @NotNull
-    Optional<User> findById(@NotNull Long userId);
+    Optional<User> findById(Long userId);
 
     @Transactional
     @Modifying
